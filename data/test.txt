@@ -1,0 +1,3 @@
+trip_id,arrival_time,departure_time,stop_id,stop_sequence,pickup_type,drop_off_type
+3_5885184,08:11:00,08:11:00,1684,0,0,1
+3_5885184,08:12:00,08:12:00,1626,1,0,0
