@@ -11,6 +11,7 @@ class Stop {
     int travel_time;
     Stop *destination_stop;
   };
+
   list<connection> connections;
 
 public:
@@ -26,10 +27,20 @@ public:
     connections.push_back(temp);
   }
   int return_stop_id() { return stop_id; }
-  void print_stop() {
+  void print_stop_specific() {
     cout << "Id przystanu: " << stop_id << endl;
     cout << "Nazwa przystanu: " << stop_name << endl;
-    cout << "Lista połączeń z przystanku: " << endl; //dopisać funkcje
+    cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
+    for (list<connection>::iterator it = connections.begin();
+         it != connections.end(); ++it) {
+      cout << "Id: " << (*it).line_id << " Czas przejzadu: " << (*it).travel_time
+           << " Cel: " <<(*it).destination_stop<<endl;
+    }
+    cout << endl;
+  }
+  void print_stop_connections() {
+    cout << "Nazwa przystanu: " << stop_name << endl;
+    cout << "Ilość połączeń z przystanku: "<<connections.size() << endl; // dopisać funkcje
     cout << endl;
   }
 };
