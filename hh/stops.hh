@@ -28,19 +28,30 @@ public:
   }
   int return_stop_id() { return stop_id; }
   void print_stop_specific() {
-    cout << "Id przystanu: " << stop_id << endl;
-    cout << "Nazwa przystanu: " << stop_name << endl;
+    cout << stop_id << stop_name << endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
     for (list<connection>::iterator it = connections.begin();
          it != connections.end(); ++it) {
-      cout << "Id: " << (*it).line_id << " Czas przejzadu: " << (*it).travel_time
-           << " Cel: " <<(*it).destination_stop<<endl;
+      cout << "Id: " << (*it).line_id
+           << " Czas przejzadu: " << (*it).travel_time
+           << " Cel: " << (*it).destination_stop << endl;
     }
     cout << endl;
   }
+  int return_conntections_size() { return connections.size(); }
   void print_stop_connections() {
     cout << "Nazwa przystanu: " << stop_name << endl;
-    cout << "Ilość połączeń z przystanku: "<<connections.size() << endl; // dopisać funkcje
+    cout << "Ilość połączeń z przystanku: " << connections.size()
+         << endl; // dopisać funkcje
     cout << endl;
+  }
+  friend ostream &operator<<(ostream &output, const Stop &D) {
+    output << D.stop_id << ' ' << D.stop_name << '\n';
+    return output;
+  }
+
+  friend istream &operator>>(istream &input, Stop &D) {
+    // input >> D.feet >> D.inches;
+    return input;
   }
 };
