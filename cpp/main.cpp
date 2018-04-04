@@ -1,4 +1,5 @@
-#include "../hh/main.hh"
+//#include "../hh/main.hh"
+#include "../hh/loadbinary.hh"
 using namespace std;
 
 int main() {

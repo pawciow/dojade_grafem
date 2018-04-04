@@ -1,3 +1,3 @@
-// #pragma once
+#pragma once
 // #include "../hh/loaddata.hh"
-#include "../hh/betterload.hh"
+#include "../hh/loadbinary.hh"

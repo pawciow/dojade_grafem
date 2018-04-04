@@ -1,4 +1,4 @@
-// #pragma once
+#pragma once
 #include "../hh/stops.hh"
 #include <fstream>
 #include <iostream>

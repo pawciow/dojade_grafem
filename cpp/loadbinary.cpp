@@ -1,26 +1,4 @@
-#include "../hh/betterload.hh"
-// #include "../hh/loaddata.hh
-void LoadData::progress_bar(float now, float max) {
-  if (((clock() - time) / CLOCKS_PER_SEC) > 1) {
-    system("clear");
-    cout << '\t' << now << " from " << max << endl;
-    int barWidth = 70;
-    std::cout << "[";
-    int pos = barWidth * progress;
-    for (int i = 0; i < barWidth; ++i) {
-      if (i < pos)
-        std::cout << "=";
-      else if (i == pos)
-        std::cout << ">";
-      else
-        std::cout << " ";
-    }
-    std::cout << "] " << int(progress * 100.0) << " %\r";
-    std::cout.flush();
-    progress = now / max;
-    time = clock();
-  }
-}
+#include "../hh/loadbinary.hh"
 
 void LoadData::split(const string &s, char c, vector<string> &v) {
   int i = 0;
@@ -64,6 +42,15 @@ vector<vector<string> *> LoadData::create_trips_names() {
     tmp.clear();
   }
   file.close();
+  // TRZEBA JAKOŚ POSORTOWAC names według stringów w names[i][0][2]
+  //ŻEBY TO ZROBIĆ TRZEBA NAPISAĆ  W LOAD BINARY FUNKCJĘ W TEJ STRUKTYRZE compareStopById
+  // DOBRĄ. TO CO JEST TERAZ JEST ŹLE
+  // A POTEM LOWER BOUND TRZEBA ZROBIĆ W FUNKCJI find_trip_name
+  // BO teraz jest mln linii kodu i każdą iteruje przez cały vector names
+  // std::sort(names.begin(), names.end(),compareByTrip_id);
+  // if(a)cout<<"OK"<<endl;
+  for (int i = 0; i < 10; i++)
+    cout << names[i][0][3] <<' '<<names[i][0][2] << endl;
   return names;
 }
 
@@ -95,6 +82,7 @@ void LoadData::create_stops_list() {
     tmp->set_stop(stop_id_int, stop_name);
     stops.push_back(*tmp);
   }
+  std::sort(stops.begin(), stops.end());
 }
 
 void LoadData::create_connections_for_stops() {
@@ -140,28 +128,25 @@ void LoadData::create_connections_for_stops() {
       if (next_stop_id_int == stop_id_int) {
         journey_end = true;
       }
-      string trip_name = find_trip_name(trips_names, trip_id);
-      int trip_name_int = atoi(trip_name.c_str());
-
-      for (list<Stop>::iterator it = stops.begin(); it != stops.end(); ++it) {
-        int existing_id = it->return_stop_id();
-        if (existing_id == stop_id_int && journey_end == false) {
-
+      if (journey_end == false) {
+        // string trip_name = find_trip_name(trips_names, trip_id);
+        // int trip_name_int = atoi(trip_name.c_str());
+        int trip_name_int = 10;
+        std::vector<Stop>::iterator f;
+        f = std::lower_bound(stops.begin(), stops.end(), stop_id_int,
+                             compareStopById);
+        if (f->return_stop_id() == stop_id_int) {
           Stop *pointer_to_next_stop;
-          for (list<Stop>::iterator iter = stops.begin(); iter != stops.end();
-               ++iter) {
-            int existing_id = iter->return_stop_id();
-            // cout << next_stop_id_int << " " << existing_id << endl;
-            if (next_stop_id_int == existing_id) {
-              pointer_to_next_stop = &*iter;
-              break;
-            }
+          std::vector<Stop>::iterator k;
+          k = std::lower_bound(stops.begin(), stops.end(), next_stop_id_int,
+                               compareStopById);
+          if (k->return_stop_id() == next_stop_id_int) {
+            pointer_to_next_stop = &*k;
+            f->add_connection(trip_name_int, 1, pointer_to_next_stop);
           }
-          it->add_connection(trip_name_int, 1, pointer_to_next_stop);
-        }
+        };
       }
     }
-    progress_bar(distance(data.begin(), p), data.size());
   }
   for (vector<vector<string> *>::iterator p = data.begin(); p != data.end();
        ++p) {
@@ -175,7 +160,7 @@ void LoadData::create_connections_for_stops() {
 
 void LoadData::clean_stops_list() {
   int tmp;
-  for (list<Stop>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  for (vector<Stop>::iterator it = stops.begin(); it != stops.end(); ++it) {
     tmp = it->return_conntections_size();
     if (tmp < 1) {
       stops.erase(it);
@@ -185,28 +170,17 @@ void LoadData::clean_stops_list() {
 }
 
 void LoadData::export_stops_list() {
-  progress = 0.0;
-  time = clock();
   create_stops_list();
   create_connections_for_stops();
+  system("clear");
+  // for (int i = 1; i < 6; i++) {
+  //   stops[i].print_stop_connections();
+  // }
+  // for (int i = 500; i < 505; i++) {
+  //   stops[i].print_stop_connections();
+  // }
   cout << "\n Utworzono " << stops.size() << " przystanków" << endl;
   clean_stops_list();
   cout << "\n Pozostało " << stops.size() << " przystanków z połączeniami"
        << endl;
-}
-void LoadData::load_from_exported_file() {
-  ifstream file;
-  // file.open("data/stop_times.txt");
-  file.open("data/exported.txt");
-  vector<string> *p = NULL;
-  string tmp;
-  vector<vector<string> *> names;
-  while (!file.eof()) {
-    getline(file, tmp, '\n');
-    p = new vector<string>();
-    split(tmp, ',', *p);
-    names.push_back(p);
-    tmp.clear();
-  }
-  file.close();
 }

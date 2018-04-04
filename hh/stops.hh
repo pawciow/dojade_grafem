@@ -1,3 +1,4 @@
+#pragma once
 #include <iostream>
 #include <list>
 #include <string>
@@ -26,7 +27,8 @@ public:
     temp.destination_stop = destination;
     connections.push_back(temp);
   }
-  int return_stop_id() { return stop_id; }
+  int return_stop_id() const { return stop_id; }
+  string return_stop_name() const { return stop_name; }
   void print_stop_specific() {
     cout << stop_id << stop_name << endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
@@ -40,18 +42,12 @@ public:
   }
   int return_conntections_size() { return connections.size(); }
   void print_stop_connections() {
-    cout << "Nazwa przystanu: " << stop_name << endl;
+    cout <<"Id: "<< stop_id<< " Nazwa przystanu: " << stop_name << endl;
     cout << "Ilość połączeń z przystanku: " << connections.size()
          << endl; // dopisać funkcje
     cout << endl;
   }
-  friend ostream &operator<<(ostream &output, const Stop &D) {
-    output << D.stop_id << ' ' << D.stop_name << '\n';
-    return output;
-  }
-
-  friend istream &operator>>(istream &input, Stop &D) {
-    // input >> D.feet >> D.inches;
-    return input;
+  bool operator<(const Stop &stop) const {
+    return stop_id < stop.return_stop_id();
   }
 };
