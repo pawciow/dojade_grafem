@@ -10,6 +10,7 @@ class Stop {
   struct connection {
     int line_id;
     int travel_time;
+    int departure_time_in_sec;
     Stop *destination_stop;
   };
 
@@ -20,29 +21,31 @@ public:
     stop_id = id;
     stop_name = name;
   }
-  void add_connection(int id, int time, Stop *destination) {
+  void add_connection(int id, int time, int departure, Stop *destination) {
     connection temp;
     temp.line_id = id;
     temp.travel_time = time;
+    temp.departure_time_in_sec = departure;
     temp.destination_stop = destination;
     connections.push_back(temp);
   }
   int return_stop_id() const { return stop_id; }
   string return_stop_name() const { return stop_name; }
   void print_stop_specific() {
-    cout << stop_id << stop_name << endl;
+    cout << stop_id << ' ' << stop_name << endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
     for (list<connection>::iterator it = connections.begin();
          it != connections.end(); ++it) {
       cout << "Id: " << (*it).line_id
            << " Czas przejzadu: " << (*it).travel_time
-           << " Cel: " << (*it).destination_stop << endl;
+           << " Godzina odjazdu (w sek): "<<(*it).departure_time_in_sec
+           << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
     }
     cout << endl;
   }
   int return_conntections_size() { return connections.size(); }
   void print_stop_connections() {
-    cout <<"Id: "<< stop_id<< " Nazwa przystanu: " << stop_name << endl;
+    cout << "Id: " << stop_id << " Nazwa przystanu: " << stop_name << endl;
     cout << "Ilość połączeń z przystanku: " << connections.size()
          << endl; // dopisać funkcje
     cout << endl;

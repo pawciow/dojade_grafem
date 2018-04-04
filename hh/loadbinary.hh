@@ -18,6 +18,8 @@ class LoadData : public Stop {
   void create_stops_list();
   void create_connections_for_stops();
   void clean_stops_list();
+  int stringToSec(string s);
+  int calculateTime(string departure_time, string arrive);
   static bool compareStopById(const Stop &a, const int &b) {
     return a.return_stop_id() < b;
   }

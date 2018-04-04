@@ -26,7 +26,19 @@ string LoadData::find_trip_name(vector<vector<string> *> list, string trip_id) {
   }
   return tmp = "błąd- brak tramwaju";
 }
-
+int LoadData::calculateTime(string departure_time, string arrive) {
+  int secs, secs_arrive = 0;
+  // 08:59:00 09:01:00
+  secs = stringToSec(departure_time);
+  secs_arrive = stringToSec(arrive);
+  return (secs_arrive - secs) / 60;
+}
+int LoadData::stringToSec(string str) {
+  int h, m, s = 0;
+  sscanf(str.c_str(), "%d:%d:%d", &h, &m, &s);
+  int secs = h * 3600 + m * 60 + s;
+  return secs;
+}
 vector<vector<string> *> LoadData::create_trips_names() {
   ifstream file;
   // file.open("data/stop_times.txt");
@@ -43,14 +55,15 @@ vector<vector<string> *> LoadData::create_trips_names() {
   }
   file.close();
   // TRZEBA JAKOŚ POSORTOWAC names według stringów w names[i][0][2]
-  //ŻEBY TO ZROBIĆ TRZEBA NAPISAĆ  W LOAD BINARY FUNKCJĘ W TEJ STRUKTYRZE compareStopById
+  //ŻEBY TO ZROBIĆ TRZEBA NAPISAĆ  W LOAD BINARY FUNKCJĘ W TEJ STRUKTYRZE
+  // compareStopById
   // DOBRĄ. TO CO JEST TERAZ JEST ŹLE
   // A POTEM LOWER BOUND TRZEBA ZROBIĆ W FUNKCJI find_trip_name
   // BO teraz jest mln linii kodu i każdą iteruje przez cały vector names
   // std::sort(names.begin(), names.end(),compareByTrip_id);
   // if(a)cout<<"OK"<<endl;
   for (int i = 0; i < 10; i++)
-    cout << names[i][0][3] <<' '<<names[i][0][2] << endl;
+    cout << names[i][0][3] << ' ' << names[i][0][2] << endl;
   return names;
 }
 
@@ -102,8 +115,7 @@ void LoadData::create_connections_for_stops() {
 
   vector<vector<string> *> trips_names;
   trips_names = create_trips_names();
-  string trip_id;
-  string stop_id;
+  string trip_id, stop_id, departure_time, arrive_time;
   int stop_id_int;
   string next_stop_id;
   int next_stop_id_int;
@@ -115,12 +127,14 @@ void LoadData::create_connections_for_stops() {
     if (trip_id[0] == '3') { // WARUNEK ŻE TO TRAMWAJ
       journey_end = false;
       stop_id = (*p)[0][3];
+      departure_time = (*p)[0][2];
       stop_id_int = atoi(stop_id.c_str());
       int a = distance(data.begin(), p);
       int b = data.size() - 3;
       string next_stop_id;
       if (a < b) {
         next_stop_id = data[a + 1][0][3];
+        arrive_time = data[a + 1][0][2];
       } else {
         next_stop_id = stop_id;
       }
@@ -142,7 +156,9 @@ void LoadData::create_connections_for_stops() {
                                compareStopById);
           if (k->return_stop_id() == next_stop_id_int) {
             pointer_to_next_stop = &*k;
-            f->add_connection(trip_name_int, 1, pointer_to_next_stop);
+            f->add_connection(
+                trip_name_int, calculateTime(departure_time, arrive_time),
+                stringToSec(departure_time), pointer_to_next_stop);
           }
         };
       }
@@ -172,7 +188,7 @@ void LoadData::clean_stops_list() {
 void LoadData::export_stops_list() {
   create_stops_list();
   create_connections_for_stops();
-  system("clear");
+  // system("clear");
   // for (int i = 1; i < 6; i++) {
   //   stops[i].print_stop_connections();
   // }
@@ -183,4 +199,5 @@ void LoadData::export_stops_list() {
   clean_stops_list();
   cout << "\n Pozostało " << stops.size() << " przystanków z połączeniami"
        << endl;
+  stops[10].print_stop_specific();
 }
