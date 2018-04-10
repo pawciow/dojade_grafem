@@ -66,10 +66,11 @@ void LoadData::createStopsList(char *f_name, int variants) {
       czas_przejazdu.pop();
     }
     // SCAL Z AKTUALNYMI PRZYSTANKAMI
-    // tmp_stops[18].print_stop_specific();
+    tmp_stops[18].print_stop_specific();
     // tmp_stops[11].print_stop_specific();
     merge_stops_list();
     // cout<<"STOPS"<<endl;
+    cout<<"NASZA DOCELOWA LISTA!!!!!!!!!!!!!"<<endl;
     stops[18].print_stop_specific();
 
     // stops[3].print_stop_specific();
@@ -87,10 +88,7 @@ void LoadData::merge_stops_list() {
     stops.clear();
     stops=tmp_stops;
     copy(tmp_stops.begin(), tmp_stops.end(), stops.begin());
-    stops[18].print_stop_specific();
   } else {
-    stops[18].print_stop_specific();
-
     for (it = tmp_stops.begin(); it != tmp_stops.end(); ++it) {
       // it->print_stop_specific();
 
@@ -100,7 +98,6 @@ void LoadData::merge_stops_list() {
         if (k->return_stop_name() == tmp) {
           // cout << "taki sam przystanek" << endl;
           powtorzenie = true;
-
           break;
         }
       }
@@ -122,14 +119,9 @@ void LoadData::merge_stops_list() {
 }
 
 void LoadData::export_stops_list() {
-  const char *array[] = {"data/000l.xml", "data/0001.xml"};
-  int wariant = 2;
-  for (int i = 0; i < 2; i++) {
-    if (i < 2) {
-      wariant = 1;
-    } else {
-      wariant = 2;
-    }
+  const char *array[] = {"data/000l.xml", "data/0002.xml","data/0001.xml"};
+  int wariant = 1;
+  for (int i = 0; i < 3 ; i++) {
     createStopsList((char *)array[i], wariant);
   }
 
