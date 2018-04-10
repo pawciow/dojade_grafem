@@ -8,9 +8,8 @@ class Stop {
   int stop_id;
   string stop_name;
   struct connection {
-    int line_id;
+    string line_id;
     int travel_time;
-    int departure_time_in_sec;
     Stop *destination_stop;
   };
 
@@ -21,11 +20,10 @@ public:
     stop_id = id;
     stop_name = name;
   }
-  void add_connection(int id, int time, int departure, Stop *destination) {
+  void add_connection(string id, int time, Stop *destination) {
     connection temp;
     temp.line_id = id;
     temp.travel_time = time;
-    temp.departure_time_in_sec = departure;
     temp.destination_stop = destination;
     connections.push_back(temp);
   }
@@ -37,9 +35,8 @@ public:
     for (list<connection>::iterator it = connections.begin();
          it != connections.end(); ++it) {
       cout << "Id: " << (*it).line_id
-           << " Czas przejzadu: " << (*it).travel_time
-           << " Godzina odjazdu (w sek): "<<(*it).departure_time_in_sec
-           << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
+           << " Czas przejzadu: " << (*it).travel_time << endl;
+      cout << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
     }
     cout << endl;
   }
