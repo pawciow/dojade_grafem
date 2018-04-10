@@ -4,15 +4,16 @@
 #include <iostream>
 #include <vector>
 #include <queue>
+#include <algorithm>
 using namespace tinyxml2;
 using namespace std;
 
 class LoadData : public Stop {
   vector<Stop> stops;
-
-  void createStopsList(char* f_name);
+  vector<Stop> tmp_stops;
+  void createStopsList(char* f_name,int variants);
   void create_connections_for_stops();
-  void clean_stops_list();
+  void merge_stops_list();
 
 public:
   void export_stops_list();

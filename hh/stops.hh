@@ -12,7 +12,6 @@ class Stop {
     int travel_time;
     Stop *destination_stop;
   };
-
   list<connection> connections;
 
 public:
@@ -29,25 +28,26 @@ public:
   }
   int return_stop_id() const { return stop_id; }
   string return_stop_name() const { return stop_name; }
+  int return_conntections_size() { return connections.size(); }
+  list<connection> returnConnection() { return connections; }
+  void mergeConnections(list<connection> connect) {
+    connections.splice(connections.end(),connect);
+  }
   void print_stop_specific() {
     cout << stop_id << ' ' << stop_name << endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
     for (list<connection>::iterator it = connections.begin();
          it != connections.end(); ++it) {
       cout << "Id: " << (*it).line_id
-           << " Czas przejzadu: " << (*it).travel_time << endl;
-      cout << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
+           << " Czas przejzadu: " << (*it).travel_time
+           << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
     }
     cout << endl;
   }
-  int return_conntections_size() { return connections.size(); }
   void print_stop_connections() {
     cout << "Id: " << stop_id << " Nazwa przystanu: " << stop_name << endl;
     cout << "Ilość połączeń z przystanku: " << connections.size()
          << endl; // dopisać funkcje
     cout << endl;
-  }
-  bool operator<(const Stop &stop) const {
-    return stop_id < stop.return_stop_id();
   }
 };

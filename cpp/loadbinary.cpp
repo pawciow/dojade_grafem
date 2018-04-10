@@ -1,72 +1,128 @@
 #include "../hh/loadbinary.hh"
 
-void LoadData::createStopsList(char *f_name) {
+void LoadData::createStopsList(char *f_name, int variants) {
   XMLDocument doc;
-  vector<Stop> stops_vect;
   std::queue<int> czas_przejazdu;
   int id_przystanku;
   const char *nazwa_przystanku;
-
+  tmp_stops.clear();
   doc.LoadFile(f_name);
+  int wariant = 0;
+
   const char *nazwa_lini =
       doc.FirstChildElement("linie")->FirstChildElement("linia")->Attribute(
           "nazwa");
   XMLElement *root = doc.FirstChildElement("linie")
                          ->FirstChildElement("linia")
                          ->FirstChildElement("wariant");
-  cout << "Wariant: " << root->Attribute("id") << endl;
+  root->QueryIntAttribute("id", &wariant);
 
-  int odjazd_h, odjazd_m, przyjazd_h, przyjazd_m;
-  for (XMLElement *e = root->FirstChildElement("przystanek"); e != NULL;
-       e = e->NextSiblingElement("przystanek")) {
+  while (wariant <= variants) {
 
-    nazwa_przystanku = e->Attribute("nazwa");
-    id_przystanku = atoi(e->Attribute("id"));
-    printf("Id i nazwa przystanku : %d , %s \n", id_przystanku,
-           nazwa_przystanku);
-    XMLElement *f = e->NextSiblingElement("przystanek");
-    if (f != NULL) {
-      XMLElement *fg = f->FirstChildElement("tabliczka")
-                           ->FirstChildElement("dzien")
-                           ->FirstChildElement("godz");
-      fg->QueryIntAttribute("h", &przyjazd_h);
-      fg->FirstChildElement("min")->QueryIntAttribute("m", &przyjazd_m);
+    cout << "Wariant: " << wariant << endl;
+    int odjazd_h, odjazd_m, przyjazd_h, przyjazd_m;
+    for (XMLElement *e = root->FirstChildElement("przystanek"); e != NULL;
+         e = e->NextSiblingElement("przystanek")) {
+
+      nazwa_przystanku = e->Attribute("nazwa");
+      id_przystanku = atoi(e->Attribute("id"));
+      // printf("Id i nazwa przystanku : %d , %s \n", id_przystanku,
+      //        nazwa_przystanku);
+      XMLElement *f = e->NextSiblingElement("przystanek");
+
+      if (f != NULL) {
+        XMLElement *fg = f->FirstChildElement("tabliczka");
+        if (fg) {
+          fg = f->FirstChildElement("tabliczka")
+                   ->FirstChildElement("dzien")
+                   ->FirstChildElement("godz");
+          fg->QueryIntAttribute("h", &przyjazd_h);
+          fg->FirstChildElement("min")->QueryIntAttribute("m", &przyjazd_m);
+        }
+      }
+      Stop *tmp = new Stop();
+      tmp->set_stop(id_przystanku, nazwa_przystanku);
+      tmp_stops.push_back(*tmp);
+      int roznica;
+      XMLElement *tt = e->FirstChildElement("tabliczka");
+      if (tt) {
+        tt = e->FirstChildElement("tabliczka")
+                 ->FirstChildElement("dzien")
+                 ->FirstChildElement("godz");
+        tt->QueryIntAttribute("h", &odjazd_h);
+        tt->FirstChildElement("min")->QueryIntAttribute("m", &odjazd_m);
+        roznica = (przyjazd_h - odjazd_h) * 60 + przyjazd_m - odjazd_m;
+        czas_przejazdu.push(roznica);
+      }
     }
-    Stop *tmp = new Stop();
-    tmp->set_stop(id_przystanku, nazwa_przystanku);
-    stops_vect.push_back(*tmp);
-    XMLElement *tt = e->FirstChildElement("tabliczka")
-                         ->FirstChildElement("dzien")
-                         ->FirstChildElement("godz");
-    tt->QueryIntAttribute("h", &odjazd_h);
-    tt->FirstChildElement("min")->QueryIntAttribute("m", &odjazd_m);
-    int roznica = (przyjazd_h - odjazd_h) * 60 + przyjazd_m - odjazd_m;
-    czas_przejazdu.push(roznica);
-  }
 
-  for (vector<Stop>::iterator it = stops_vect.begin(); it != stops_vect.end();
-       ++it) {
-    vector<Stop>::iterator k = it;
-    k++;
-    // cout<<k->return_stop_name()<<endl;
-    string str = nazwa_lini;
-    it->add_connection(str, czas_przejazdu.front(), &*(k));
-    czas_przejazdu.pop();
+    for (vector<Stop>::iterator it = tmp_stops.begin(); it != tmp_stops.end();
+         ++it) {
+      vector<Stop>::iterator k = it;
+      k++;
+      // cout<<k->return_stop_name()<<endl;
+      string str = nazwa_lini;
+      it->add_connection(str, czas_przejazdu.front(), &*(k));
+      czas_przejazdu.pop();
+    }
+    // SCAL Z AKTUALNYMI PRZYSTANKAMI
+    tmp_stops[0].print_stop_specific();
+    merge_stops_list();
+    // stops[3].print_stop_specific();
+    root = root->NextSiblingElement("wariant");
+    root->QueryIntAttribute("id", &wariant);
   }
-  // SCAL Z AKTUALNYMI PRZYSTANKAMI
-  // stops = stops_vect;
-  stops_vect[3].print_stop_specific();
-  stops = stops_vect;
-  stops[3].print_stop_specific();
-
 }
 
 void LoadData::create_connections_for_stops() {}
 
-void LoadData::clean_stops_list() {}
+void LoadData::merge_stops_list() {
+  // std::sort(stops.begin(), stops.end());
+  // std::sort(tmp_stops.begin(), tmp_stops.end());
+  vector<Stop>::iterator it;
+  vector<Stop>::iterator k;
+  if (stops.size() == 0) {
+    stops = tmp_stops;
+  } else {
+    for (it = tmp_stops.begin(); it != tmp_stops.end(); ++it) {
+
+      string tmp = it->return_stop_name();
+      bool powtorzenie = false;
+      for (k = stops.begin(); k != stops.end(); ++k) {
+        if (k->return_stop_name() == tmp) {
+          // cout << "taki sam przystanek" << endl;
+          powtorzenie = true;
+          break;
+        }
+      }
+      if (powtorzenie) {
+        // cout << "jest powtorka" << endl;
+        k->mergeConnections(it->returnConnection());
+      } else {
+        stops.push_back(*it);
+      }
+    }
+  }
+}
 
 void LoadData::export_stops_list() {
-  createStopsList((char *)"000l.xml");
-  // cout << "\n Utworzono " << stops.size() << " przystanków" << endl;
-  stops[3].print_stop_specific();
+  const char *array[] = {"data/000l.xml", "data/0001.xml"};
+  int wariant = 2;
+  for (int i = 0; i < 2; i++) {
+    if (i < 2) {
+      wariant = 1;
+    } else {
+      wariant = 2;
+    }
+    createStopsList((char *)array[i], wariant);
+  }
+
+  cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
+  for (vector<Stop>::iterator it = stops.begin(); it != stops.end();
+       ++it) {
+         // 20670== WYSZYŃSKIEGO
+        if(20670== it->return_stop_id()){
+          it->print_stop_specific();
+        }
+       }
 }
