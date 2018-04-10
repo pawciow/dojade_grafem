@@ -78,7 +78,7 @@ void LoadData::createStopsList(char *f_name, int variants) {
     root->QueryIntAttribute("id", &wariant);
   }
 }
-
+//////////////////////////////////////
 void LoadData::merge_stops_list() {
   // std::sort(stops.begin(), stops.end());
   // std::sort(tmp_stops.begin(), tmp_stops.end());
