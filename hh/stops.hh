@@ -2,6 +2,7 @@
 #include <iostream>
 #include <list>
 #include <string>
+#include <vector>
 using namespace std;
 
 class Stop {
@@ -23,6 +24,7 @@ public:
     stop_id = id;
     stop_name = name;
   }
+
   void add_connection(string id, int time, Stop *destination) {
     connection temp;
     temp.line_id = id;
@@ -30,13 +32,33 @@ public:
     temp.destination_stop = destination;
     connections.push_back(temp);
   }
+
   int return_stop_id() const { return stop_id; }
+
   string return_stop_name() const { return stop_name; }
+
   int return_conntections_size() { return connections.size(); }
+
   list<connection> returnConnection() { return connections; }
-  void mergeConnections(list<connection> connect) {
-    connections.splice(connections.end(),connect);
+
+  void replaceConnectionsPointers(vector<Stop> stops) {
+    list<connection>::iterator it;
+    vector<Stop>::iterator k;
+    for (it = connections.begin(); it != connections.end(); ++it) {
+      string nazwa = (*it).destination_stop->return_stop_name();
+      // cout<<nazwa<<endl;
+      for (k = stops.begin(); k != stops.end(); ++k) {
+        if (nazwa == k->return_stop_name()) {
+          // cout<<k->return_stop_name()<<endl;
+          (*it).destination_stop = &*k;
+        }
+      }
+    }
   }
+  void mergeConnection(list<connection> connect) {
+    connections.splice(connections.end(), connect);
+  }
+
   void print_stop_specific() {
     cout << stop_id << ' ' << stop_name << endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
@@ -46,12 +68,6 @@ public:
            << " Czas przejzadu: " << (*it).travel_time
            << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
     }
-    cout << endl;
-  }
-  void print_stop_connections() {
-    cout << "Id: " << stop_id << " Nazwa przystanu: " << stop_name << endl;
-    cout << "Ilość połączeń z przystanku: " << connections.size()
-         << endl; // dopisać funkcje
     cout << endl;
   }
 };
