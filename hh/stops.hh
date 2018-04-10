@@ -8,6 +8,8 @@ using namespace std;
 class Stop {
   int stop_id;
   string stop_name;
+  Stop * previous;
+public:
   struct connection {
     string line_id;
     int travel_time;
@@ -15,7 +17,9 @@ class Stop {
   };
   list<connection> connections;
 
-public:
+//public:
+  auto returnId() {return stop_id;}
+  auto returnStopName() {return stop_name;}
   void set_stop(int id, string name) {
     stop_id = id;
     stop_name = name;

@@ -1,8 +1,8 @@
-CC = g++
-all: main.o  graph.o loadbinary.o tinyxml2.o
+CC = g++ -std=c++14
+all: o/main.o  graph.o loadbinary.o tinyxml2.o
 	$(CC) o/main.o o/graph.o o/loadbinary.o o/tinyxml2.o -o program
 	./program
-main.o: cpp/main.cpp hh/main.hh
+o/main.o: cpp/main.cpp hh/main.hh
 	$(CC) cpp/main.cpp -c -o o/main.o
 graph.o: cpp/graph.cpp hh/graph.hh
 	$(CC) cpp/graph.cpp -c -o o/graph.o
