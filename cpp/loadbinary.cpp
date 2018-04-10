@@ -19,7 +19,7 @@ void LoadData::createStopsList(char *f_name, int variants) {
 
   while (wariant <= variants) {
 
-    cout << "Wariant: " << wariant << endl;
+    // cout << "Wariant: " << wariant << endl;
     int odjazd_h, odjazd_m, przyjazd_h, przyjazd_m;
     for (XMLElement *e = root->FirstChildElement("przystanek"); e != NULL;
          e = e->NextSiblingElement("przystanek")) {
@@ -66,15 +66,17 @@ void LoadData::createStopsList(char *f_name, int variants) {
       czas_przejazdu.pop();
     }
     // SCAL Z AKTUALNYMI PRZYSTANKAMI
-    tmp_stops[0].print_stop_specific();
+    // tmp_stops[18].print_stop_specific();
+    // tmp_stops[11].print_stop_specific();
     merge_stops_list();
+    // cout<<"STOPS"<<endl;
+    stops[18].print_stop_specific();
+
     // stops[3].print_stop_specific();
     root = root->NextSiblingElement("wariant");
     root->QueryIntAttribute("id", &wariant);
   }
 }
-
-void LoadData::create_connections_for_stops() {}
 
 void LoadData::merge_stops_list() {
   // std::sort(stops.begin(), stops.end());
@@ -82,9 +84,15 @@ void LoadData::merge_stops_list() {
   vector<Stop>::iterator it;
   vector<Stop>::iterator k;
   if (stops.size() == 0) {
-    stops = tmp_stops;
+    stops.clear();
+    stops=tmp_stops;
+    copy(tmp_stops.begin(), tmp_stops.end(), stops.begin());
+    stops[18].print_stop_specific();
   } else {
+    stops[18].print_stop_specific();
+
     for (it = tmp_stops.begin(); it != tmp_stops.end(); ++it) {
+      // it->print_stop_specific();
 
       string tmp = it->return_stop_name();
       bool powtorzenie = false;
@@ -92,12 +100,20 @@ void LoadData::merge_stops_list() {
         if (k->return_stop_name() == tmp) {
           // cout << "taki sam przystanek" << endl;
           powtorzenie = true;
+
           break;
         }
       }
       if (powtorzenie) {
-        // cout << "jest powtorka" << endl;
-        k->mergeConnections(it->returnConnection());
+        // znajdz przystanek docelowy w stops iterator k
+        // zamien wskaxnik
+        //
+        // zrob dla wszystkich połączeń
+        // it->replaceConnectionsPointers(stops);
+        // it->print_stop_specific();
+        // k->print_stop_specific();
+
+        // k->mergeConnection(it->returnConnection());
       } else {
         stops.push_back(*it);
       }
@@ -118,11 +134,10 @@ void LoadData::export_stops_list() {
   }
 
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
-  for (vector<Stop>::iterator it = stops.begin(); it != stops.end();
-       ++it) {
-         // 20670== WYSZYŃSKIEGO
-        if(20670== it->return_stop_id()){
-          it->print_stop_specific();
-        }
-       }
+  // for (vector<Stop>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  //   // 20670== WYSZYŃSKIEGO
+  //   if (20670 == it->return_stop_id()) {
+  //     it->print_stop_specific();
+  //   }
+  // }
 }
