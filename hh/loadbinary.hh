@@ -9,7 +9,6 @@ using namespace tinyxml2;
 using namespace std;
 
 class LoadData : public Stop {
-  vector<Stop> stops;
   vector<Stop> tmp_stops;
   void createStopsList(char* f_name,int variants);
   void create_connections_for_stops();
@@ -17,4 +16,6 @@ class LoadData : public Stop {
 
 public:
   void export_stops_list();
+  vector<Stop> stops; // TYMCZASOWE XD
+
 };
