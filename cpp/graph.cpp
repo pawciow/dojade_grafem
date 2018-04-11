@@ -12,7 +12,7 @@ DFS::DFS(std::vector<Stop *> nods)
 
 void DFS::operator() (vector<Stop *> nods)
 {
-	cout << __FUNCTION__ << endl;
+	//cout << __FUNCTION__ << endl;
 
 	for(auto& e: nods)
 	{
@@ -26,7 +26,6 @@ void DFS::operator() (vector<Stop *> nods)
 			}
 
 		}
-		cout << endl;
 	}
 }
 
@@ -56,43 +55,45 @@ ostream& operator<<(ostream& out, const IResults results)
 		out << "Przystanek: " << e.stopName << "Tramwaj " << e.lineName << endl;
 	return out;
 }
-/*
-BFS::BFS(vector<Stop> nods, int from)
+
+BFS::BFS(vector<Stop*> nods, int from)
 {
 	cout << "BFS created correctly \n";
 	for(auto& e: nods)
-		nodColors[e.returnId()] = white;
+		nodColors[e->returnId()] = white;
 }
-void BFS::Enqueue(vector<Stop>& nods, int from) {
-	for (list<Stop::connection>::iterator p = nods[from].connections.begin();
-			p != nods[from].connections.end(); ++p) {
-		Q.push(*p->destination_stop);
+
+void BFS::Enqueue(vector<Stop*>& nods, int from)
+{
+	for (auto& p: nods[from]->connections)
+	{
+		Q.push(p.destination_stop);
 	}
 }
 
-void BFS::operator() (vector<Stop> nods, int from)
+
+void BFS::operator() (vector<Stop*> nods, int from)
 {
 	nodColors[from] = grey;
 	Enqueue(nods, from);
-	while(!Q.empty()){
+	while(!Q.empty())
+	{
 		auto e = Q.front();
 		Q.pop();
-		for( auto p = e.connections.begin(); p != e.connections.end(); ++p)
+		for( auto p : e->connections)
 		{
-			if( nodColors[p->destination_stop->returnId()] == white )
+			if( nodColors[p.destination_stop->returnId()] == white )
 			{
-				/*****************************/
-				//nodColors[p->destination_stop->returnId()] == grey; //UWAGA: TEGO NIE JESTEM PEWNY, TRZEBA SPRAWDZIĆ!!!!!!!
-				/****************************/
-				/*for( list<Stop::connection>::iterator I = nods[from].connections.begin(); I != nods[from].connections.end(); ++I)
+				nodColors[p.destination_stop->returnId()] == grey;
+				for( auto& I : nods[from]->connections)
 				{
-					Q.push(*I->destination_stop);
+					Q.push(I.destination_stop);
 				}
 
 			}
 		}
-		nodColors[e.returnId()] == black;
+		nodColors[e->returnId()] == black;
 	}
 
 }
-*/
+

@@ -13,8 +13,8 @@ int main() {
   cout << dfs;
 
 
-  //BFS bfs(test->stops, test->stops[0]->returnId() );
-  //bfs(test->stops, test->stops[0].returnId() );
+  BFS bfs(test->stops, test->stops[0]->returnId() );
+ // bfs(test->stops, test->stops[0]->returnId() );
 
   return 0;
 }
