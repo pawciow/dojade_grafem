@@ -130,7 +130,7 @@ void LoadData::reloadConnections(vector<Stop> target) {
   }
 }
 void LoadData::export_stops_list() {
-  std::vector<const char*> array = {
+  const char* array[] = {
       "data/000l.xml", "data/0001.xml",  "data/0002.xml",
       "data/0003.xml", "data/0004.xml", "data/0005.xml",  "data/0006.xml",
       "data/0007.xml", "data/0008.xml", "data/0009.xml",  "data/0010.xml",
@@ -138,7 +138,7 @@ void LoadData::export_stops_list() {
       "data/0020.xml", "data/0023.xml", /*"data/00024.xml", bo nie dziala*/ "data/0031.xml",
       "data/0032.xml", "data/0033.xml"};
   int wariant = 1;
-  for (int i = 0; i < array.size(); i++) {
+  for (int i = 0; i < sizeof(array)/sizeof(*array); i++) {
     createStopsList(array[i], wariant);
   }
 
