@@ -7,7 +7,7 @@ int main() {
   cout <<'\n'<< "Start:" << endl;
   LoadData *test = new LoadData();
   test->export_stops_list();
-  DFS dfs(test->stops);
+  //DFS dfs(test->stops);
   //dfs(test->stops);
   cout << test->stops[0].returnId();
  // BFS bfs(test->stops, test->stops[0].returnId() );
