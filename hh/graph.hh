@@ -32,17 +32,17 @@ protected:
 		_path(string Line, string Stop)
 			{lineName = Line; stopName = lineName;}
 	};
-
 	vector<_path> Path;
-public:
-	ostream operator << (ostream out);
+friend ostream& operator << (ostream& out, const IResults);
 };
 
-class DFS : private IColors, private IResults
+ostream& operator << (ostream& out, const IResults);
+
+class DFS : private IColors, public IResults
 {
 public:
-	DFS(vector<Stop> nods);
-	void operator() (vector<Stop> nods);
+	DFS(vector<Stop*> nods);
+	void operator() (vector<Stop*> nods);
 private:
 	void visitNode(Stop*);
 

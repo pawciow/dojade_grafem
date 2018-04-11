@@ -1,6 +1,8 @@
 #include "../hh/loadbinary.hh"
 
-void LoadData::createStopsList(char *f_name, int variants) {
+#include <array>
+
+void LoadData::createStopsList(const char *f_name, int variants) {
   XMLDocument doc;
   std::queue<int> czas_przejazdu;
   int id_przystanku;
@@ -60,9 +62,13 @@ void LoadData::createStopsList(char *f_name, int variants) {
          ++it) {
       vector<Stop*>::iterator k = it;
       k++;
+      if (k == tmp_stops.end())
+      {
+    	  break;
+      }
       // cout<<k->return_stop_name()<<endl;
       string str = nazwa_lini;
-      (*it)->add_connection(str, czas_przejazdu.front(), &*(*k));
+      (*it)->add_connection(str, czas_przejazdu.front(), *k);
       czas_przejazdu.pop();
     }
     // SCAL Z AKTUALNYMI PRZYSTANKAMI
@@ -124,16 +130,16 @@ void LoadData::reloadConnections(vector<Stop> target) {
   }
 }
 void LoadData::export_stops_list() {
-  const char *array[] = {
+  std::vector<const char*> array = {
       "data/000l.xml", "data/0001.xml",  "data/0002.xml",
       "data/0003.xml", "data/0004.xml", "data/0005.xml",  "data/0006.xml",
       "data/0007.xml", "data/0008.xml", "data/0009.xml",  "data/0010.xml",
       "data/0011.xml", "data/0014.xml", "data/0015.xml",  "data/0017.xml",
-      "data/0020.xml", "data/0023.xml", "data/00024.xml", "data/0031.xml",
+      "data/0020.xml", "data/0023.xml", /*"data/00024.xml", bo nie dziala*/ "data/0031.xml",
       "data/0032.xml", "data/0033.xml"};
   int wariant = 1;
-  for (int i = 0; i < 17; i++) {
-    createStopsList((char *)array[i], wariant);
+  for (int i = 0; i < array.size(); i++) {
+    createStopsList(array[i], wariant);
   }
 
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
