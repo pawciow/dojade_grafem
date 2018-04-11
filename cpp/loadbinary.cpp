@@ -42,7 +42,7 @@ void LoadData::createStopsList(char *f_name, int variants) {
       }
       Stop *tmp = new Stop();
       tmp->set_stop(id_przystanku, nazwa_przystanku);
-      tmp_stops.push_back(*tmp);
+      tmp_stops.push_back(tmp);
       int roznica;
       XMLElement *tt = e->FirstChildElement("tabliczka");
       if (tt) {
@@ -56,47 +56,44 @@ void LoadData::createStopsList(char *f_name, int variants) {
       }
     }
 
-    for (vector<Stop>::iterator it = tmp_stops.begin(); it != tmp_stops.end();
+    for (vector<Stop*>::iterator it = tmp_stops.begin(); it != tmp_stops.end();
          ++it) {
-      vector<Stop>::iterator k = it;
+      vector<Stop*>::iterator k = it;
       k++;
       // cout<<k->return_stop_name()<<endl;
       string str = nazwa_lini;
-      it->add_connection(str, czas_przejazdu.front(), &*(k));
+      (*it)->add_connection(str, czas_przejazdu.front(), &*(*k));
       czas_przejazdu.pop();
     }
     // SCAL Z AKTUALNYMI PRZYSTANKAMI
-    tmp_stops[18].print_stop_specific();
+    // tmp_stops[0]->print_stop_specific();
     // tmp_stops[11].print_stop_specific();
     merge_stops_list();
     // cout<<"STOPS"<<endl;
-    cout << "NASZA DOCELOWA LISTA!!!!!!!!!!!!!" << endl;
-    stops[18].print_stop_specific();
+    stops[0]->print_stop_specific();
 
     // stops[3].print_stop_specific();
+    if( root->NextSiblingElement("wariant")!=NULL){
     root = root->NextSiblingElement("wariant");
-    root->QueryIntAttribute("id", &wariant);
+    root->QueryIntAttribute("id", &wariant);}
   }
 }
 //////////////////////////////////////
 void LoadData::merge_stops_list() {
   // std::sort(stops.begin(), stops.end());
   // std::sort(tmp_stops.begin(), tmp_stops.end());
-  vector<Stop>::iterator it;
-  vector<Stop>::iterator k;
+  vector<Stop*>::iterator it;
+  vector<Stop*>::iterator k;
   if (stops.size() == 0) {
     stops.clear();
     stops = tmp_stops;
-    copy(tmp_stops.begin(), tmp_stops.end(), stops.begin());
-    reloadConnections(stops);
   } else {
     for (it = tmp_stops.begin(); it != tmp_stops.end(); ++it) {
       // it->print_stop_specific();
-
-      string tmp = it->return_stop_name();
+      string tmp = (*it)->return_stop_name();
       bool powtorzenie = false;
       for (k = stops.begin(); k != stops.end(); ++k) {
-        if (k->return_stop_name() == tmp) {
+        if ((*k)->return_stop_name() == tmp) {
           // cout << "taki sam przystanek" << endl;
           powtorzenie = true;
           break;
@@ -111,7 +108,7 @@ void LoadData::merge_stops_list() {
         // it->print_stop_specific();
         // k->print_stop_specific();
 
-        // k->mergeConnection(it->returnConnection());
+        (*k)->mergeConnection((*it)->returnConnection());
       } else {
         stops.push_back(*it);
       }
@@ -127,17 +124,23 @@ void LoadData::reloadConnections(vector<Stop> target) {
   }
 }
 void LoadData::export_stops_list() {
-  const char *array[] = {"data/000l.xml", "data/0002.xml", "data/0001.xml"};
+  const char *array[] = {
+      "data/000l.xml", "data/0001.xml",  "data/0002.xml",
+      "data/0003.xml", "data/0004.xml", "data/0005.xml",  "data/0006.xml",
+      "data/0007.xml", "data/0008.xml", "data/0009.xml",  "data/0010.xml",
+      "data/0011.xml", "data/0014.xml", "data/0015.xml",  "data/0017.xml",
+      "data/0020.xml", "data/0023.xml", "data/00024.xml", "data/0031.xml",
+      "data/0032.xml", "data/0033.xml"};
   int wariant = 1;
-  for (int i = 0; i < 3; i++) {
+  for (int i = 0; i < 17; i++) {
     createStopsList((char *)array[i], wariant);
   }
 
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
-  // for (vector<Stop>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  // for (vector<Stop*>::iterator it = stops.begin(); it != stops.end(); ++it) {
   //   // 20670== WYSZYŃSKIEGO
-  //   if (20670 == it->return_stop_id()) {
-  //     it->print_stop_specific();
+  //   if (20670 == (*it)->return_stop_id()) {
+  //     (*it)->print_stop_specific();
   //   }
   // }
 }
