@@ -11,6 +11,7 @@ using namespace std;
 class LoadData : public Stop {
   vector<Stop> tmp_stops;
   void createStopsList(char *f_name, int variants);
+  void reloadConnections(vector<Stop> target);
   void merge_stops_list();
 
 public:

@@ -70,7 +70,7 @@ void LoadData::createStopsList(char *f_name, int variants) {
     // tmp_stops[11].print_stop_specific();
     merge_stops_list();
     // cout<<"STOPS"<<endl;
-    cout<<"NASZA DOCELOWA LISTA!!!!!!!!!!!!!"<<endl;
+    cout << "NASZA DOCELOWA LISTA!!!!!!!!!!!!!" << endl;
     stops[18].print_stop_specific();
 
     // stops[3].print_stop_specific();
@@ -86,8 +86,9 @@ void LoadData::merge_stops_list() {
   vector<Stop>::iterator k;
   if (stops.size() == 0) {
     stops.clear();
-    stops=tmp_stops;
+    stops = tmp_stops;
     copy(tmp_stops.begin(), tmp_stops.end(), stops.begin());
+    reloadConnections(stops);
   } else {
     for (it = tmp_stops.begin(); it != tmp_stops.end(); ++it) {
       // it->print_stop_specific();
@@ -117,11 +118,18 @@ void LoadData::merge_stops_list() {
     }
   }
 }
-
+void LoadData::reloadConnections(vector<Stop> target) {
+  for (vector<Stop>::iterator it = target.begin(); it != target.end(); ++it) {
+    std::cout << "Rozmiar: " << it->return_conntections_size() << '\n';
+    if (it->return_conntections_size() >= 1) {
+      it->replaceConnectionsPointers(target);
+    }
+  }
+}
 void LoadData::export_stops_list() {
-  const char *array[] = {"data/000l.xml", "data/0002.xml","data/0001.xml"};
+  const char *array[] = {"data/000l.xml", "data/0002.xml", "data/0001.xml"};
   int wariant = 1;
-  for (int i = 0; i < 3 ; i++) {
+  for (int i = 0; i < 3; i++) {
     createStopsList((char *)array[i], wariant);
   }
 

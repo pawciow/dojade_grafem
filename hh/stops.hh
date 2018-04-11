@@ -23,6 +23,7 @@ public:
   void set_stop(int id, string name) {
     stop_id = id;
     stop_name = name;
+    connections.clear();
   }
 
   void add_connection(string id, int time, Stop *destination) {
@@ -46,7 +47,7 @@ public:
     vector<Stop>::iterator k;
     for (it = connections.begin(); it != connections.end(); ++it) {
       string nazwa = (*it).destination_stop->return_stop_name();
-      // cout<<nazwa<<endl;
+      cout<<nazwa<<endl;
       for (k = stops.begin(); k != stops.end(); ++k) {
         if (nazwa == k->return_stop_name()) {
           // cout<<k->return_stop_name()<<endl;
