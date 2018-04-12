@@ -8,14 +8,17 @@ using namespace std;
 class Stop {
   int stop_id;
   string stop_name;
-  Stop * previous;
 public:
   struct connection {
     string line_id;
     int travel_time;
     Stop *destination_stop;
+    string fromStop;
   };
   list<connection> connections;
+  string previous;
+ // void printPath(int vectorNumbBegin, int vectorNumbEnd);
+
 
 //public:
   auto returnId() {return stop_id;}

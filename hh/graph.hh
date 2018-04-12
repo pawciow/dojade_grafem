@@ -48,7 +48,7 @@ private:
 
 };
 
-class BFS : private IColors, private IResults
+class BFS : private IColors, public IResults
 {
 public:
 	BFS(vector<Stop*> nods, int from);
@@ -58,6 +58,6 @@ private:
 
 	void Enqueue(const vector<Stop*> & nods, int from);
 	void Enqueue(const list<Stop::connection> & connections);
-	Stop* Dequeue(queue<Stop*> Q);
+	Stop* Dequeue(queue<Stop*>& Q);
 
 };

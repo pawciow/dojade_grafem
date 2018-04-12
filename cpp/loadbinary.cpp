@@ -159,7 +159,7 @@ LoadData::LoadData() {
     }
   }
   for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-    if ("Rynek" == (*it)->return_stop_name()) {
+    if ("Nowowiejska" == (*it)->return_stop_name()) {
       (*it)->print_stop_specific();
     }
   }
