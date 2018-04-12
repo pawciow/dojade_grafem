@@ -30,7 +30,7 @@ protected:
 		string lineName;
 		string stopName;
 		_path(string Line, string Stop)
-			{lineName = Line; stopName = lineName;}
+			{lineName = Line; stopName = Stop;}
 	};
 	vector<_path> Path;
 friend ostream& operator << (ostream& out, const IResults);
