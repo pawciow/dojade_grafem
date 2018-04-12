@@ -51,10 +51,10 @@ private:
 class BFS : private IColors, private IResults
 {
 public:
-	BFS(vector<Stop> nods, int from);
-	void operator() (vector<Stop> nods, int from );
+	BFS(vector<Stop*> nods, int from);
+	void operator() (vector<Stop*> nods, int from );
 private:
-	queue<Stop> Q;
+	queue<Stop*> Q;
 
-	void Enqueue(vector<Stop>& nods, int from);
+	void Enqueue(vector<Stop*>& nods, int from);
 };

@@ -52,11 +52,7 @@ ostream& operator<<(ostream& out, const IResults results)
 {
 	out << "Route: " << endl;
 	for(auto& e: results.Path)
-<<<<<<< HEAD
-		out << " Przystanek: " << e.stopName << " Tramwaj " << e.lineName<<endl;
-=======
 		out << "Przystanek: " << e.stopName << "Tramwaj " << e.lineName << endl;
->>>>>>> f3eb694fecfdcc31b36e80ee9818e8b9b537d50e
 	return out;
 }
 

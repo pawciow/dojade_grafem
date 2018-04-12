@@ -135,6 +135,7 @@ void LoadData::merge_stops_list() {
     }
   }
 }
+<<<<<<< HEAD
 
 LoadData::LoadData() {
   std::vector<const char *> array = {
@@ -148,6 +149,26 @@ LoadData::LoadData() {
   for (int i = 0; i < array.size(); i++) {
     if (i > 1)
       wariant = 2; //  linie poza OL i Op mają więcej niż 1 kierunek jazdy
+=======
+void LoadData::reloadConnections(vector<Stop> target) {
+  for (vector<Stop>::iterator it = target.begin(); it != target.end(); ++it) {
+    std::cout << "Rozmiar: " << it->return_conntections_size() << '\n';
+    if (it->return_conntections_size() >= 1) {
+      it->replaceConnectionsPointers(target);
+    }
+  }
+}
+void LoadData::export_stops_list() {
+  const char* array[] = {
+      "data/000l.xml", "data/0001.xml",  "data/0002.xml",
+      "data/0003.xml", "data/0004.xml", "data/0005.xml",  "data/0006.xml",
+      "data/0007.xml", "data/0008.xml", "data/0009.xml",  "data/0010.xml",
+      "data/0011.xml", "data/0014.xml", "data/0015.xml",  "data/0017.xml",
+      "data/0020.xml", "data/0023.xml", /*"data/00024.xml", bo nie dziala*/ "data/0031.xml",
+      "data/0032.xml", "data/0033.xml"};
+  int wariant = 1;
+  for (int i = 0; i < sizeof(array)/sizeof(*array); i++) {
+>>>>>>> f3eb694fecfdcc31b36e80ee9818e8b9b537d50e
     createStopsList(array[i], wariant);
   }
 
