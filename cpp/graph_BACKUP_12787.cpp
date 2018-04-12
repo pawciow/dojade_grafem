@@ -3,36 +3,30 @@
 
 DFS::DFS(std::vector<Stop *> nods)
 {
-	int numberOfStops = 0;
 	for(auto& p: nods)
 	{
 		nodColors[p->returnId()] = white;
-		numberOfStops++;
 	}
-	cout << "DFS created properly. Number of white stops is: " << numberOfStops << endl;
+	cout << "DFS created properly" << endl;
 }
 
 void DFS::operator() (vector<Stop *> nods)
 {
 	//cout << __FUNCTION__ << endl;
-	int numberOfStops = 0;
+
 	for(auto& e: nods)
 	{
-	//auto e = nods[2];
 		for(auto& p: e->connections)
 		{
 			if( nodColors[p.destination_stop->returnId()] == white )
 			{
-				numberOfStops++;
-				_path tmp(p.destination_stop->returnStopName(), p.line_id);
+				_path tmp(e->returnStopName(), p.line_id);
 				Path.push_back(tmp);
 				visitNode(p.destination_stop);
 			}
 
 		}
 	}
-	cout << "Number of stops is: " << numberOfStops << endl;
-
 }
 
 void DFS::visitNode(Stop* node)
