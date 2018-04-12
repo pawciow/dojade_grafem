@@ -41,7 +41,7 @@ ostream& operator << (ostream& out, const IResults);
 class DFS : private IColors, public IResults
 {
 public:
-	DFS(vector<Stop*> nods);
+	DFS(const vector<Stop*> & nods);
 	void operator() (vector<Stop*> nods);
 private:
 	void visitNode(Stop*);
@@ -56,5 +56,8 @@ public:
 private:
 	queue<Stop*> Q;
 
-	void Enqueue(vector<Stop*>& nods, int from);
+	void Enqueue(const vector<Stop*> & nods, int from);
+	void Enqueue(const list<Stop::connection> & connections);
+	Stop* Dequeue(queue<Stop*> Q);
+
 };
