@@ -16,9 +16,8 @@ void DFS::operator() (vector<Stop *> nods)
 {
 	//cout << __FUNCTION__ << endl;
 	int numberOfStops = 0;
-	for(auto& e: nods)
-	{
-	//auto e = nods[2];
+	//for(auto& e: nods)
+	auto e = nods[2];
 		for(auto& p: e->connections)
 		{
 			if( nodColors[p.destination_stop->returnId()] == white )
@@ -30,7 +29,7 @@ void DFS::operator() (vector<Stop *> nods)
 			}
 
 		}
-	}
+	//}
 	cout << "Number of stops is: " << numberOfStops << endl;
 
 }
@@ -47,7 +46,10 @@ void DFS::visitNode(Stop* node)
 			}
 			if( nodColors[p.destination_stop->returnId()] == white )
 			{
+				_path tmp(p.destination_stop->returnStopName(), p.line_id);
+				Path.push_back(tmp);
 				visitNode(p.destination_stop);
+
 			}
 		}
 	nodColors[node->returnId()] = black;
@@ -58,11 +60,7 @@ ostream& operator<<(ostream& out, const IResults results)
 {
 	out << "Route: " << endl;
 	for(auto& e: results.Path)
-<<<<<<< HEAD
 		out << " Przystanek: " << e.stopName << " Tramwaj " << e.lineName<<endl;
-=======
-		out << "Przystanek: " << e.stopName << "Tramwaj " << e.lineName << endl;
->>>>>>> f3eb694fecfdcc31b36e80ee9818e8b9b537d50e
 	return out;
 }
 

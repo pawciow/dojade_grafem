@@ -12,6 +12,8 @@ class LoadData : public Stop {
   vector<Stop*> tmp_stops;
   void createStopsList(const char *f_name, int variants);
   void merge_stops_list();
+  void reloadConnections(vector<Stop> target);
+
 
 public:
   void export_stops_list();
