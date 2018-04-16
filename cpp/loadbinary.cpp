@@ -1,6 +1,8 @@
 #include "../hh/loadbinary.hh"
 
 #include <array>
+#include <fstream>
+#include <regex>
 
 void LoadData::createStopsList(const char *f_name, int variants) {
   XMLDocument doc;
@@ -12,9 +14,10 @@ void LoadData::createStopsList(const char *f_name, int variants) {
   if (load_ok) {
     cout << "Problem z ładowaniem pliku" << endl;
   }
-  int wariant = 0;
 
+  int wariant = 0;
   const char *nazwa_lini;
+
   XMLElement *linia =
       doc.FirstChildElement("linie")->FirstChildElement("linia");
   if (linia != NULL) {
@@ -24,6 +27,7 @@ void LoadData::createStopsList(const char *f_name, int variants) {
                            ->FirstChildElement("linia")
                            ->FirstChildElement("wariant");
     root->QueryIntAttribute("id", &wariant);
+
     int loop = 0;
     while (loop < variants) {
       tmp_stops.clear();
@@ -136,6 +140,43 @@ void LoadData::merge_stops_list() {
   }
 }
 
+void LoadData::loadLocalizations(const char* file) const
+{
+    fstream fileStream(file);
+    if (!fileStream) return;
+
+    auto reg = regex("(.*),(.*),\"(.*)\",(.*),(.*)");
+    std::string line;
+    std::getline(fileStream, line); // ingore first line with labels
+    while (std::getline(fileStream, line))
+    {
+    	int id;
+    	double x;
+    	double y;
+
+    	smatch m;
+    	regex_search(line,
+        	m,
+			reg);
+
+    	id = stoi(m[2]);
+    	x = stod(m[4]);
+    	y = stod(m[5]);
+    	//std::cout << id << "," << x << "," << y << endl;
+    	for(auto& e: stops)
+    	{
+    		//cout << m[3] << e->stop_name << endl;
+    		//if(m[3] == e->stop_name)
+    		if(id == e->stop_id)
+    		{
+    			//cout << "i found one!" << endl;
+    			e->setLocalization(x, y);
+    			continue;
+    		}
+    	}
+    }
+}
+
 LoadData::LoadData() {
   std::vector<const char *> array = {
       "data/000p.xml", "data/000l.xml", "data/0001.xml", "data/0002.xml",
@@ -151,6 +192,9 @@ LoadData::LoadData() {
     createStopsList(array[i], wariant);
   }
 
+  const auto localizationsFile = "data/stops.txt";
+     loadLocalizations(localizationsFile);
+
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
 
   for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
@@ -163,4 +207,6 @@ LoadData::LoadData() {
       (*it)->print_stop_specific();
     }
   }
+
+
 }

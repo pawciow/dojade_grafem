@@ -5,24 +5,38 @@
 #include <vector>
 using namespace std;
 
+struct Localization
+{
+	double x = 0.0;
+	double y = 0.0;
+};
+
+
 class Stop {
-  int stop_id;
-  string stop_name;
+ // int stop_id;
+  Localization localization;
 public:
-  struct connection {
+  string stop_name;
+  int stop_id;
+
+  struct connection
+  {
     string line_id;
     int travel_time;
     Stop *destination_stop;
     string fromStop;
   };
+
   list<connection> connections;
   string previous;
- // void printPath(int vectorNumbBegin, int vectorNumbEnd);
 
-
-//public:
   auto returnId() {return stop_id;}
   auto returnStopName() {return stop_name;}
+  void setLocalization(double X, double Y)
+  {
+		localization.x = X;
+		localization.y = Y;
+  }
   void set_stop(int id, string name) {
     stop_id = id;
     stop_name = name;
@@ -65,6 +79,7 @@ public:
 
   void print_stop_specific() {
     cout << stop_id << ' ' << stop_name << endl;
+    cout << "Pozycja x: " << localization.x << "Pozycja y: " << localization.y <<endl;
     cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
     for (list<connection>::iterator it = connections.begin();
          it != connections.end(); ++it) {

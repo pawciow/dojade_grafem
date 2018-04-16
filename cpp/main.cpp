@@ -48,9 +48,9 @@ int main() {
   BFS bfs(test->stops, TEST );
   bfs(test->stops, TEST ); // przystanek nr 21 nie dziala??
   cout << "bfs done \n";
-  cout << bfs;
+  //cout << bfs;
 
   cout<< test->stops[1]->returnStopName() << "from:" << test->stops[TEST]->previous << endl;
-  printPath(1,TEST,test->stops);
+  //printPath(1,TEST,test->stops);
   return 0;
 }
