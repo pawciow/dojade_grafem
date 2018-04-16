@@ -9,9 +9,9 @@
 #define HH_ASTAR_HH_
 
 #include "../hh/loadbinary.hh"
-#include "../hh/graph.hh"
 #include <queue>
 #include <functional>
+#include "interfaces.hh"
 
 //priority_queue<int, Stop, std::greater<int> > q2 > Q;
 //std::priority_queue<Stop ,int, std::greater<int> > Q;

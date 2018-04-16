@@ -1,4 +1,4 @@
-#include "../hh/graph.hh"
+#include "../hh/interfaces.hh"
 
 
 DFS::DFS(std::vector<Stop *> nods)

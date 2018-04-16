@@ -1,3 +1,7 @@
+#ifndef HH_INTERFACES_HH_
+#define HH_INTERFACES_HH_
+
+
 
 #include "../hh/loadbinary.hh"
 #include <map>
@@ -38,26 +42,4 @@ friend ostream& operator << (ostream& out, const IResults);
 
 ostream& operator << (ostream& out, const IResults);
 
-class DFS : private IColors, public IResults
-{
-public:
-	DFS(const vector<Stop*> & nods);
-	void operator() (vector<Stop*> nods);
-private:
-	void visitNode(Stop*);
-
-};
-
-class BFS : private IColors, public IResults
-{
-public:
-	BFS(vector<Stop*> nods, int from);
-	void operator() (vector<Stop*> nods, int from );
-private:
-	queue<Stop*> Q;
-
-	void Enqueue(const vector<Stop*> & nods, int from);
-	void Enqueue(const list<Stop::connection> & connections);
-	Stop* Dequeue(queue<Stop*>& Q);
-
-};
+#endif
