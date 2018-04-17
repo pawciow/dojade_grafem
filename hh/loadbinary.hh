@@ -6,6 +6,9 @@
 #include <iostream>
 #include <queue>
 #include <vector>
+#include <array>
+#include <fstream>
+#include <regex>
 
 using namespace tinyxml2;
 using namespace std;
