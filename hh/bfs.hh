@@ -14,12 +14,12 @@
 class BFS : private IColors, public IResults
 {
 public:
-	BFS(vector<Stop*> nods, int from);
-	void operator() (vector<Stop*> nods, int from );
+	BFS(vector<Stop*> nods);
+	void operator() (vector<Stop*> nods, Stop* from );
 private:
 	queue<Stop*> Q;
 
-	void Enqueue(const vector<Stop*> & nods, int from);
+	void Enqueue(const vector<Stop*> & nods, Stop* from);
 	void Enqueue(const list<Stop::connection> & connections);
 	Stop* Dequeue(queue<Stop*>& Q);
 

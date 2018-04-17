@@ -7,18 +7,18 @@
 
 #include "../hh/bfs.hh"
 
-BFS::BFS(vector<Stop*> nods, int from)
+BFS::BFS(vector<Stop*> nods)
 {
 	cout << "BFS created correctly \n";
 	for(auto& e: nods)
 	{
 		nodColors[e->returnId()] = white;
-		for(auto& I : e->connections)
-			I.fromStop = e->returnStopName();
+		/*for(auto& I : e->connections)
+			I.fromStop = e->returnStopName();*/
 	}
 }
-
-void BFS::Enqueue(const vector<Stop*> & nods, int from)
+/*
+void BFS::Enqueue(const vector<Stop*> & nods, Stop* from)
 {
 	for (auto& p: nods[from]->connections)
 	{
@@ -27,7 +27,7 @@ void BFS::Enqueue(const vector<Stop*> & nods, int from)
 		//cout << __FUNCTION__ << endl;
 
 	}
-}
+}*/
 
 void BFS::Enqueue(const list<Stop::connection> & connections)
 {
@@ -43,12 +43,11 @@ Stop* BFS::Dequeue(queue<Stop*>& Q)
 	Q.pop();
 	return e;
 }
-void BFS::operator() (vector<Stop*> nods, int from)
+void BFS::operator() (vector<Stop*> nods, Stop* from)
 {
-	nodColors[from] = grey;
-	//cout << __FUNCTION__ << endl;
-	Enqueue(nods, from);
-	//cout << "Enquequed" << endl;
+
+	nodColors[from->returnId()] = grey;
+	Enqueue(from->connections);
 
 
 	while(!Q.empty())
@@ -61,7 +60,6 @@ void BFS::operator() (vector<Stop*> nods, int from)
 				nodColors[p.destination_stop->returnId()] = grey;
 				_path tmp(p.line_id, p.destination_stop->returnStopName());
 				Path.push_back(tmp);
-				// Enqueue(nods[from]->connections);
 				p.destination_stop->previous = e->returnStopName();
 				Q.push(p.destination_stop);
 			}

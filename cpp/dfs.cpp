@@ -19,12 +19,9 @@ DFS::DFS(const std::vector<Stop *> & nods)
 	cout << "DFS created properly. Number of white stops is: " << numberOfStops << endl;
 }
 
-void DFS::operator() (vector<Stop *> nods)
+void DFS::operator() (vector<Stop *> nods,Stop* e)
 {
-	//cout << __FUNCTION__ << endl;
 	int numberOfStops = 0;
-	//for(auto& e: nods)
-	auto e = nods[2];
 		for(auto& p: e->connections)
 		{
 			if( nodColors[p.destination_stop->returnId()] == white )

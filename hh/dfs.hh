@@ -14,7 +14,7 @@ class DFS : private IColors, public IResults
 {
 public:
 	DFS(const vector<Stop*> & nods);
-	void operator() (vector<Stop*> nods);
+	void operator() (vector<Stop*> nods, Stop* e);
 private:
 	void visitNode(Stop*);
 

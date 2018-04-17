@@ -44,7 +44,7 @@ int main() {
   LoadData *test = new LoadData();// ładuje w konstruktorze
 
    DFS dfs(test->stops);
-   dfs(test->stops);
+   dfs(test->stops, test->stops[FROM_TEST]);
    //cout << dfs;
    cout << "Going to: " << test->stops[DESTINATION_TEST]->returnStopName()
 		<< " from:" << test->stops[FROM_TEST]->returnStopName() << endl;
@@ -54,8 +54,8 @@ int main() {
 
 
 
-  BFS bfs(test->stops, FROM_TEST );
-  bfs(test->stops, FROM_TEST ); // przystanek nr 21 nie dziala??
+  /*BFS bfs(test->stops, FROM_TEST );
+  bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??
   cout << "bfs done \n";
   //cout << bfs;
 
@@ -64,8 +64,7 @@ int main() {
   cout << "Path is: \n" << test->stops[FROM_TEST]->previous << endl;
 
   printPath(FROM_TEST,DESTINATION_TEST,test->stops);
- // cout<< test->stops[2]->returnStopName() << " from: " << test->stops[TEST]->previous << endl;
-  //printPath(1,TEST,test->stops);
+  //printPath(1,TEST,test->stops);*/
 
   return 0;
 }
