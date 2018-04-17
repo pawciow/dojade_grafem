@@ -13,21 +13,10 @@ BFS::BFS(vector<Stop*> nods)
 	for(auto& e: nods)
 	{
 		nodColors[e->returnId()] = white;
-		/*for(auto& I : e->connections)
-			I.fromStop = e->returnStopName();*/
+		for(auto& I : e->connections)
+			I.fromStop = e->returnStopName();
 	}
 }
-/*
-void BFS::Enqueue(const vector<Stop*> & nods, Stop* from)
-{
-	for (auto& p: nods[from]->connections)
-	{
-		//cout << "im in" << endl;
-		Q.push(p.destination_stop);
-		//cout << __FUNCTION__ << endl;
-
-	}
-}*/
 
 void BFS::Enqueue(const list<Stop::connection> & connections)
 {
@@ -43,7 +32,7 @@ Stop* BFS::Dequeue(queue<Stop*>& Q)
 	Q.pop();
 	return e;
 }
-void BFS::operator() (vector<Stop*> nods, Stop* from)
+void BFS::operator() (vector<Stop*> & nods, Stop* from)
 {
 
 	nodColors[from->returnId()] = grey;
@@ -52,6 +41,7 @@ void BFS::operator() (vector<Stop*> nods, Stop* from)
 
 	while(!Q.empty())
 	{
+		nodesCount++;
 		auto e = Dequeue(Q);
 		for( auto& p : e->connections)
 		{
@@ -60,12 +50,13 @@ void BFS::operator() (vector<Stop*> nods, Stop* from)
 				nodColors[p.destination_stop->returnId()] = grey;
 				_path tmp(p.line_id, p.destination_stop->returnStopName());
 				Path.push_back(tmp);
-				p.destination_stop->previous = e->returnStopName();
+				p.destination_stop->previous = p.fromStop;
 				Q.push(p.destination_stop);
 			}
 		}
 		auto key = e->returnId();
 		nodColors[key] = black;
 	}
+	cout << "Number of stops is: " << nodesCount << endl;
 
 }
