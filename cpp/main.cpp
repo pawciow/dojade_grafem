@@ -50,7 +50,7 @@ int main() {
   cout << "bfs done \n";
   //cout << bfs;
 
-  cout<< test->stops[1]->returnStopName() << " from: " << test->stops[TEST]->previous << endl;
+  cout<< test->stops[2]->returnStopName() << " from: " << test->stops[TEST]->previous << endl;
   //printPath(1,TEST,test->stops);
   return 0;
 }

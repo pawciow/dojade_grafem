@@ -11,8 +11,6 @@ struct Localization {
 };
 
 class Stop {
-  Localization localization;
-
 public:
   string stop_name;
   int stop_id;
@@ -25,6 +23,7 @@ public:
   };
 
   list<connection> connections;
+  Localization localization;
   string previous;
 
   auto returnId() { return stop_id; }
