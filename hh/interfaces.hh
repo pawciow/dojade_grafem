@@ -18,6 +18,7 @@ protected:
 };
 class IResults {
 protected:
+int nodesCount = 0;
   struct _path {
     string lineName;
     string stopName;

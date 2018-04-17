@@ -179,14 +179,14 @@ LoadData::LoadData() {
 
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
 
-  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-  //   if ("Jeleniog�rska" == (*it)->return_stop_name()) {
-  //     (*it)->print_stop_specific();
-  //   }
-  // }
-  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-  //   if ("Nowowiejska" == (*it)->return_stop_name()) {
-  //     (*it)->print_stop_specific();
-  //   }
-  // }
+   for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+     if ("Jeleniog�rska" == (*it)->return_stop_name()) {
+       (*it)->print_stop_specific();
+     }
+   }
+   for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+     if ("Nowowiejska" == (*it)->return_stop_name()) {
+       (*it)->print_stop_specific();
+     }
+   }
 }

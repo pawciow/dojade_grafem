@@ -30,5 +30,6 @@ void Stop::print_stop_specific() {
          << " Czas przejzadu: " << (*it).travel_time
          << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
   }
+  cout << "Poprzednik :" << previous;
   cout << endl;
 }

@@ -15,7 +15,7 @@ class BFS : private IColors, public IResults
 {
 public:
 	BFS(vector<Stop*> nods);
-	void operator() (vector<Stop*> nods, Stop* from );
+	void operator() (vector<Stop*> & nods, Stop* from );
 private:
 	queue<Stop*> Q;
 
