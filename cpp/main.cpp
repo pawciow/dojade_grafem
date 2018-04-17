@@ -36,7 +36,7 @@ void printPath(int vectorNumbBegin, int vectorNumbEnd, vector<Stop*> Vect)
 
 
 int main() {
-	const int TEST = 1; //dziwne, niektore przystanki nie dzialaja w algorytmie
+	const int TEST = 22; //dziwne, niektore przystanki nie dzialaja w algorytmie
   cout <<'\n'<< "Start:" << endl;
   LoadData *test = new LoadData();// ładuje w konstruktorze
 
@@ -50,7 +50,7 @@ int main() {
   cout << "bfs done \n";
   //cout << bfs;
 
-  cout<< test->stops[1]->returnStopName() << "from:" << test->stops[TEST]->previous << endl;
+  cout<< test->stops[1]->returnStopName() << " from: " << test->stops[TEST]->previous << endl;
   //printPath(1,TEST,test->stops);
   return 0;
 }

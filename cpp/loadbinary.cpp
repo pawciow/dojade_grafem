@@ -1,9 +1,5 @@
 #include "../hh/loadbinary.hh"
 
-#include <array>
-#include <fstream>
-#include <regex>
-
 void LoadData::createStopsList(const char *f_name, int variants) {
   XMLDocument doc;
   std::queue<int> czas_przejazdu;
@@ -39,8 +35,6 @@ void LoadData::createStopsList(const char *f_name, int variants) {
 
         nazwa_przystanku = e->Attribute("nazwa");
         id_przystanku = atoi(e->Attribute("id"));
-        // printf("Id i nazwa przystanku : %d , %s \n", id_przystanku,
-        //        nazwa_przystanku);
         XMLElement *f = e->NextSiblingElement("przystanek");
         XMLElement *fg;
 
@@ -69,19 +63,14 @@ void LoadData::createStopsList(const char *f_name, int variants) {
 
           roznica = (przyjazd_h - odjazd_h) * 60 + przyjazd_m - odjazd_m;
 
-        if (roznica == 0){
-            roznica = 1;}
-          else if (roznica < 0) {
-            roznica = 4;//TYMCZASOWOOOOOOOO
-            
-            // fg=fg->NextSiblingElement("min");
-// fg=fg->FirstChildElement("min");
-// if(fg->NextSiblingElement("min") != NULL){
-//   cout<<"pzyjazd"<<przyjazd_m<<endl;
-// fg->NextSiblingElement("min")->NextSiblingElement("min")->QueryIntAttribute("m", &odjazd_m);
-// cout<<"OK "<<przyjazd_m<<endl;}
-//
-//             roznica = (przyjazd_h - odjazd_h) * 60 + przyjazd_m - odjazd_m;
+          if (roznica == 0) {
+            roznica = 1;
+          } else if (roznica < 0) {
+            roznica = 2;
+            /*W niektórych przypadkach różnica czasu przejazdu pomiędzy
+            kolejnymi przystanakami jest ujemna przez inne trasy tramwajów,
+            wyjazdy z zajezdni itd. My ich nie rozpatrujemy dlatego przyjmujemy
+            w takim wypadku czas przejazdu =2*/
           }
           czas_przejazdu.push(roznica);
         }
@@ -111,8 +100,6 @@ void LoadData::createStopsList(const char *f_name, int variants) {
 }
 //////////////////////////////////////
 void LoadData::merge_stops_list() {
-  // std::sort(stops.begin(), stops.end());
-  // std::sort(tmp_stops.begin(), tmp_stops.end());
   vector<Stop *>::iterator it;
   vector<Stop *>::iterator k;
   if (stops.size() == 0) {
@@ -140,41 +127,36 @@ void LoadData::merge_stops_list() {
   }
 }
 
-void LoadData::loadLocalizations(const char* file) const
-{
-    fstream fileStream(file);
-    if (!fileStream) return;
+void LoadData::loadLocalizations(const char *file) const {
+  fstream fileStream(file);
+  if (!fileStream)
+    return;
 
-    auto reg = regex("(.*),(.*),\"(.*)\",(.*),(.*)");
-    std::string line;
-    std::getline(fileStream, line); // ingore first line with labels
-    while (std::getline(fileStream, line))
-    {
-    	int id;
-    	double x;
-    	double y;
+  auto reg = regex("(.*),(.*),\"(.*)\",(.*),(.*)");
+  std::string line;
+  std::getline(fileStream, line); // ingore first line with labels
+  while (std::getline(fileStream, line)) {
+    int id;
+    double x;
+    double y;
 
-    	smatch m;
-    	regex_search(line,
-        	m,
-			reg);
+    smatch m;
+    regex_search(line, m, reg);
 
-    	id = stoi(m[2]);
-    	x = stod(m[4]);
-    	y = stod(m[5]);
-    	//std::cout << id << "," << x << "," << y << endl;
-    	for(auto& e: stops)
-    	{
-    		//cout << m[3] << e->stop_name << endl;
-    		//if(m[3] == e->stop_name)
-    		if(id == e->stop_id)
-    		{
-    			//cout << "i found one!" << endl;
-    			e->setLocalization(x, y);
-    			continue;
-    		}
-    	}
+    id = stoi(m[2]);
+    x = stod(m[4]);
+    y = stod(m[5]);
+    // std::cout << id << "," << x << "," << y << endl;
+    for (auto &e : stops) {
+      // cout << m[3] << e->stop_name << endl;
+      // if(m[3] == e->stop_name)
+      if (id == e->stop_id) {
+        // cout << "i found one!" << endl;
+        e->setLocalization(x, y);
+        continue;
+      }
     }
+  }
 }
 
 LoadData::LoadData() {
@@ -193,20 +175,18 @@ LoadData::LoadData() {
   }
 
   const auto localizationsFile = "data/stops.txt";
-     loadLocalizations(localizationsFile);
+  loadLocalizations(localizationsFile);
 
   cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
 
-  for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-    if ("Jeleniog�rska" == (*it)->return_stop_name()) {
-      (*it)->print_stop_specific();
-    }
-  }
-  for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-    if ("Nowowiejska" == (*it)->return_stop_name()) {
-      (*it)->print_stop_specific();
-    }
-  }
-
-
+  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  //   if ("Jeleniog�rska" == (*it)->return_stop_name()) {
+  //     (*it)->print_stop_specific();
+  //   }
+  // }
+  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  //   if ("Nowowiejska" == (*it)->return_stop_name()) {
+  //     (*it)->print_stop_specific();
+  //   }
+  // }
 }
