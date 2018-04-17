@@ -46,9 +46,9 @@ Stop* BFS::Dequeue(queue<Stop*>& Q)
 void BFS::operator() (vector<Stop*> nods, int from)
 {
 	nodColors[from] = grey;
-	cout << __FUNCTION__ << endl;
+	//cout << __FUNCTION__ << endl;
 	Enqueue(nods, from);
-	cout << "Enquequed" << endl;
+	//cout << "Enquequed" << endl;
 
 
 	while(!Q.empty())

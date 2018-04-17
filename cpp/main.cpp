@@ -36,21 +36,31 @@ void printPath(int vectorNumbBegin, int vectorNumbEnd, vector<Stop*> Vect)
 
 
 int main() {
-	const int TEST = 1; //dziwne, niektore przystanki nie dzialaja w algorytmie
+	const int DESTINATION_TEST = 10; //dziwne, niektore przystanki nie dzialaja w algorytmie
+	const int FROM_TEST = 2;
   cout <<'\n'<< "Start:" << endl;
   LoadData *test = new LoadData();// ładuje w konstruktorze
 
-   //DFS dfs(test->stops);
-   //dfs(test->stops);
+   DFS dfs(test->stops);
+   dfs(test->stops);
    //cout << dfs;
+   cout << "Going to: " << test->stops[DESTINATION_TEST]->returnStopName()
+		<< " from:" << test->stops[FROM_TEST]->returnStopName() << endl;
+   cout << "Path is: \n" << test->stops[FROM_TEST]->previous << endl;
+
+   printPath(FROM_TEST,DESTINATION_TEST,test->stops);
 
 
-  BFS bfs(test->stops, TEST );
-  bfs(test->stops, TEST ); // przystanek nr 21 nie dziala??
+
+  BFS bfs(test->stops, FROM_TEST );
+  bfs(test->stops, FROM_TEST ); // przystanek nr 21 nie dziala??
   cout << "bfs done \n";
-  //cout << bfs;
+ // cout << bfs;
 
-  cout<< test->stops[1]->returnStopName() << "from:" << test->stops[TEST]->previous << endl;
-  //printPath(1,TEST,test->stops);
+  cout  <<"Going to: "<< test->stops[DESTINATION_TEST]->returnStopName()
+		<< " from: "   << test->stops[FROM_TEST]->returnStopName() << endl;
+  cout << "Path is: \n" << test->stops[FROM_TEST]->previous << endl;
+
+  printPath(FROM_TEST,DESTINATION_TEST,test->stops);
   return 0;
 }
