@@ -16,33 +16,50 @@ aStar::aStar(vector<Stop *> stopp) { stops = stopp; }
 // //
 // std::map<int, int>& came_from;
 //
-void findPath(Stop *start, Stop* stop) {
-  // calculateHeuristic();
+void aStar::findPath(Stop *start, Stop *goal) {
+  calculateHeuristic(goal);
 
   std::map<Stop *, double> cost_so_far;
+  std::map<Stop *, Stop *> came_from;
 
-  std::list<Stop *> openList;
-  std::list<Stop *> closedList;
+  PriorityQueue<Stop *, double> frontier;
 
-  openList.push_back(start);
+  frontier.put(start, 0);
+  came_from[start] = start;
   cost_so_far[start] = 0;
+  int a = 0;
 
-  while (!openList.empty()) {
-    auto current = openList.front();
-    openList.pop_front();
-    if (current == stop) {
-      std::cout << "dotarło\n";
+  while (!frontier.empty()) {
+    a++;
+    Stop* current = frontier.get();
+
+    if (current == goal) {
+      std::cout << "A* dotarło\n";
       break;
     }
-    for (auto &next : current->connections) {
+    for (auto next : current->connections) {
       double new_cost = cost_so_far[current] + next.travel_time;
       if (cost_so_far.find(next.destination_stop) == cost_so_far.end() ||
           new_cost < cost_so_far[next.destination_stop]) {
         cost_so_far[next.destination_stop] = new_cost;
-        int tmp = next.destination_stop->returnId();
         double priority =
-            new_cost + distances[tmp];
+            new_cost + distances[next.destination_stop->returnId()];
+        frontier.put(next.destination_stop, priority);
+        came_from[next.destination_stop] = current;
+        // cout<<" AAAA "<<next.destination_stop->returnStopName()<<" BBBB "<<current->returnStopName();
       }
     }
+  }
+//   for (const auto &p : came_from) {
+//     std::cout << "m[" << p.first->returnStopName() << "] = " << p.second->returnStopName()<< '\n';
+// }
+  cout << "KONIEC A*" << a << endl;
+  path = reconstruct_path(start, goal, came_from);
+}
+void aStar::printPath() {
+  cout<<"Trasa: "<<endl;
+  for (auto &It : path) {
+    auto name = It->returnStopName();
+    cout << name << endl;
   }
 }
