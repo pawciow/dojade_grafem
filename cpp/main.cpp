@@ -71,6 +71,10 @@ int main()	{
 	//	przez to czasem nie znajduje polaczenia, chociaz nazwe przystanku ma
 	// Symulowalem 0P/0L, 1, 3
 
+	// A tam pierdolisz pan, już są oczyszczone i tylko jeden przystanek
+	// był bez połączeń więc do roboty
+	// Twój algo wywala seg fault mój ładnie trasę robi!@@@
+
 	cout <<'\n'<< "Start:" << endl;
 
 	LoadData *test = new LoadData();// ładuje w konstruktorze
