@@ -9,10 +9,11 @@
 #include <queue>
 
 class aStar {
-  std::map<int, double> distances;
+  std::map<std::string, double> distances;
   vector<Stop *> stops;
   vector<Stop *> path;
   std::map<Stop *, std::string> connectionName;
+  std::map<Stop *, double> cost_so_far;
   bool routefound;
 
 public:
@@ -42,12 +43,10 @@ struct PriorityQueue {
   }
 };
 template <typename Location>
-std::vector<Location>
-reconstruct_path(Location start, Location goal,
-                          std::map<Location, Location> came_from) {
+std::vector<Location> reconstruct_path(Location start, Location goal,
+                                       std::map<Location, Location> came_from) {
   std::vector<Location> path;
   Location current = goal;
-
   while (current != start) {
     path.push_back(current);
     current = came_from[current];

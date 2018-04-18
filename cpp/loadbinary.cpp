@@ -187,13 +187,16 @@ LoadData::LoadData() {
   // }
   // usuń przystanki bez połączeń
   for (auto i = stops.begin(); i != stops.end();) {
-    if ((*i)->return_conntections_size()<1)
+    if ((*i)->return_conntections_size()<1 )
       i = stops.erase(i);
     else
       ++i;
   }
+  cout << "\nPo oczyszczeniu: " << stops.size() << " przystanków\n" << endl;
+
+  //
   // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-  //   if ("DWORZEC NADODRZE" == (*it)->return_stop_name()) {
+  //   if ("Nowowiejska" == (*it)->return_stop_name()) {
   //     (*it)->print_stop_specific();
   //   }
   // }

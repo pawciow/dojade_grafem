@@ -7,7 +7,7 @@ void aStar::calculateHeuristic(Stop *stop) {
                  (stop->localization.y - e->localization.y) *
                      (stop->localization.y - e->localization.y);
     tmp = sqrt(tmp);
-    distances[e->returnId()] = tmp;
+    distances[e->returnStopName()] = tmp;
   }
 }
 
@@ -19,7 +19,6 @@ aStar::aStar(vector<Stop *> stopp) {
 void aStar::findPath(Stop *start, Stop *goal) {
   calculateHeuristic(goal);
 
-  std::map<Stop *, double> cost_so_far;
   std::map<Stop *, Stop *> came_from;
   PriorityQueue<Stop *, double> frontier;
 
@@ -38,27 +37,31 @@ void aStar::findPath(Stop *start, Stop *goal) {
       break;
     }
     for (auto next : current->connections) {
+      // ROZWIĄZANIE PROblEMU z pointerami
+      string tgg = next.destination_stop->returnStopName();
+      vector<Stop *>::iterator it;
+      for (it = stops.begin(); it != stops.end(); ++it) {
+        if (tgg == (*it)->return_stop_name()) {
+          break;
+        }
+      }
+      /////////////////////
       double new_cost = cost_so_far[current] + next.travel_time;
-      if (cost_so_far.find(next.destination_stop) == cost_so_far.end() ||
-          new_cost < cost_so_far[next.destination_stop]) {
-        cost_so_far[next.destination_stop] = new_cost;
-        double priority =
-            new_cost + distances[next.destination_stop->returnId()];
-        frontier.put(next.destination_stop, priority);
-        came_from[next.destination_stop] = current;
-        connectionName[next.destination_stop] = next.line_id;
-        // cout<<" AAAA "<<next.destination_stop->returnStopName()<<" BBBB
-        // "<<current->returnStopName();
+      if (cost_so_far.find(*it) == cost_so_far.end() ||
+          new_cost < cost_so_far[*it]) {
+        cost_so_far[*it] = new_cost;
+        double priority = new_cost + distances[(*it)->returnStopName()];
+
+        frontier.put(*it, priority);
+        came_from[*it] = current;
+        connectionName[*it] = next.line_id;
       }
     }
   }
-  //   for (const auto &p : came_from) {
-  //     std::cout << "m[" << p.first->returnStopName() << "] = " <<
-  //     p.second->returnStopName()<< '\n';
-  // }
+
   cout << "KONIEC A* " << a << endl;
   if (routefound)
-  path = reconstruct_path(start, goal, came_from);
+    path = reconstruct_path(start, goal, came_from);
 }
 void aStar::printPath() {
   bool firststop = true;
@@ -71,7 +74,8 @@ void aStar::printPath() {
         cout << "Odjzad z: " << name << endl;
         firststop = false;
       } else {
-        cout << " tramwajem: " << line << " do: " << name << endl;
+        cout << " tramwajem: " << line << " do: " << name
+             << " Łączny czas: " << cost_so_far[It] << endl;
       }
     }
   } else {
