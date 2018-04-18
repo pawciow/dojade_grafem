@@ -12,6 +12,8 @@ class aStar {
   std::map<int, double> distances;
   vector<Stop *> stops;
   vector<Stop *> path;
+  std::map<Stop *, std::string> connectionName;
+  bool routefound;
 
 public:
   aStar(vector<Stop *> stopp);
