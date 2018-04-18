@@ -38,6 +38,7 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 
 	auto e = destination;
 	auto time = 0;
+	auto SummarizedTime = 0;
 	string ex = "WoW";
 	bool X = true;
 	while(X)
@@ -45,6 +46,7 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 		auto tmp_e = e;
 		e = findPath(from, e, Vect);
 		time = findTimeAndSetLine(e, tmp_e, ex);
+		SummarizedTime += time;
 		if(time == -1)
 		{
 			cerr << "NO PATH WAS FOUND !!";
@@ -55,16 +57,25 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 			X = false;
 
 	}
+	cout << "Time for whole route is : " << SummarizedTime << endl;
 }
 
 
 int main()	{
 
-	const int FROM_TEST = 1;
-	const int DESTINATION_TEST = 15; //dziwne, niektore przystanki nie dzialaja w algorytmie
+	const int FROM_TEST = 55;
+	const int DESTINATION_TEST = 54;
+
+	//				WAŹNE:
+	//	Niektore przystanki sa puste - wada konstrukcyjna naszego wczytywania,
+	//	przez to czasem nie znajduje polaczenia, chociaz nazwe przystanku ma
+	// Symulowalem 0P/0L, 1, 3
 
 	cout <<'\n'<< "Start:" << endl;
+
 	LoadData *test = new LoadData();// ładuje w konstruktorze
+	cout << "Begin stop: " << test->stops[FROM_TEST]->stop_name << endl;
+	cout << "End stop: " << test->stops[DESTINATION_TEST]->stop_name << endl;
 
 	DFS dfs(test->stops);
 	dfs(test->stops, test->stops[FROM_TEST]);
