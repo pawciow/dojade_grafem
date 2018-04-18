@@ -56,31 +56,6 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 		if (e == from)
 			X = false;
 
-<<<<<<< HEAD
-	const int FROM_TEST = 21;
-	const int DESTINATION_TEST = 124; //dziwne, niektore przystanki nie dzialaja w algorytmie
-//15 do 82
-  cout <<'\n'<< "Start:" << endl;
-  LoadData *test = new LoadData();// ładuje w konstruktorze
-	//
-  //  DFS dfs(test->stops);
-  //  dfs(test->stops, test->stops[FROM_TEST]);
-	//
-   cout << "Going to: " << test->stops[DESTINATION_TEST]->returnStopName();
-  //  //test->stops[DESTINATION_TEST]->print_stop_specific();
-   cout << " from:"		<< test->stops[FROM_TEST]->returnStopName()<<'\n'<<endl;
-  // // test->stops[FROM_TEST]->print_stop_specific();
-  //  cout << "\nPath is:" << test->stops[DESTINATION_TEST]->previous <<" \n";
-	//
-	//
-  //  printPath(FROM_TEST,DESTINATION_TEST,test->stops);
-	//
-  // printPath(FROM_TEST, DESTINATION_TEST, test->stops);
-	aStar astar(test->stops);
-	// test->stops[FROM_TEST]->print_stop_specific();
-	astar.findPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST]);
-	astar.printPath();
-=======
 	}
 	cout << "Time for whole route is : " << SummarizedTime << endl;
 }
@@ -89,7 +64,7 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 int main()	{
 
 	const int FROM_TEST = 55;
-	const int DESTINATION_TEST = 54;
+	const int DESTINATION_TEST = 21;
 
 	//				WAŹNE:
 	//	Niektore przystanki sa puste - wada konstrukcyjna naszego wczytywania,
@@ -102,16 +77,14 @@ int main()	{
 	cout << "Begin stop: " << test->stops[FROM_TEST]->stop_name << endl;
 	cout << "End stop: " << test->stops[DESTINATION_TEST]->stop_name << endl;
 
-	DFS dfs(test->stops);
-	dfs(test->stops, test->stops[FROM_TEST]);
->>>>>>> ff89fb82adb31a47cb84a8c1bcdef02a29ca0717
+	// DFS dfs(test->stops);
+	// dfs(test->stops, test->stops[FROM_TEST]);
+	//
+	// reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
 
-	reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
-
-	/*aStar astar(test->stops);
+	aStar astar(test->stops);
 	astar.findPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST]);
-	astar.printPath();*/
-	//BĘDĘ MUSIAŁ DODAĆ NAZWY LINI KTÓRYMI SIE JEDZIE
+	astar.printPath();
 
 	/*BFS bfs(test->stops);
 	bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??
