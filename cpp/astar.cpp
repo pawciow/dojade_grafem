@@ -57,6 +57,7 @@ void aStar::findPath(Stop *start, Stop *goal) {
   //     p.second->returnStopName()<< '\n';
   // }
   cout << "KONIEC A* " << a << endl;
+  if (routefound)
   path = reconstruct_path(start, goal, came_from);
 }
 void aStar::printPath() {
