@@ -13,14 +13,13 @@ auto findPath(const Stop* from,const Stop* destination, const vector<Stop*> & Ve
 	for(auto&& e: Vect)
 	{
 		if(e->stop_name == destination->previous)
-			{
-				//cout << endl << e->stop_name << connectionTime;
-				return e;
-			}
+		{
+			return e;
+		}
 	}
 
 }
-auto findTime(const Stop* from,const Stop* destination, string & tram)
+auto findTimeAndSetLine(const Stop* from,const Stop* destination, string & tram)
 {
 	for(auto&& It: from->connections)
 	{
@@ -45,7 +44,12 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 	{
 		auto tmp_e = e;
 		e = findPath(from, e, Vect);
-		time = findTime(e, tmp_e, ex);
+		time = findTimeAndSetLine(e, tmp_e, ex);
+		if(time == -1)
+		{
+			cerr << "NO PATH WAS FOUND !!";
+			break;
+		}
 		cout << e->stop_name <<" czas dotarcia: "<< time <<" Tramwaj: "<< ex << endl;
 		if (e == from)
 			X = false;
@@ -54,7 +58,7 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 }
 
 
-int main() {
+int main()	{
 
 	const int FROM_TEST = 1;
 	const int DESTINATION_TEST = 15; //dziwne, niektore przystanki nie dzialaja w algorytmie
@@ -72,11 +76,11 @@ int main() {
 	astar.printPath();*/
 	//BĘDĘ MUSIAŁ DODAĆ NAZWY LINI KTÓRYMI SIE JEDZIE
 
-  /*BFS bfs(test->stops);
-  bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??
-  cout << "bfs done \n";
-  //cout << bfs;
-  printPath(FROM_TEST,DESTINATION_TEST,test->stops);*/
+	/*BFS bfs(test->stops);
+	bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??
+	cout << "bfs done \n";
 
-  return 0;
+	reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
+	*/
+	return 0;
 }
