@@ -8,27 +8,45 @@
 using namespace std;
 
 
-auto printPath(const Stop* from,const Stop* destination, const vector<Stop*> & Vect)
+auto findPath(const Stop* from,const Stop* destination, const vector<Stop*> & Vect)
 {
 	for(auto&& e: Vect)
 	{
 		if(e->stop_name == destination->previous)
 			{
-				cout << endl << e->stop_name;
+				//cout << endl << e->stop_name << connectionTime;
 				return e;
 			}
 	}
 
 }
+auto findTime(const Stop* from,const Stop* destination, string & tram)
+{
+	for(auto&& It: from->connections)
+	{
+		if(It.destination_stop == destination)
+		{
+			tram = It.line_id;
+			return It.travel_time;
+		}
+	}
+	return -1; // Czas ujemny - nie znalazlo polaczenia
+}
+
 void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop*> & Vect)
 {
 	cout << "Sciezki:" << endl << destination->stop_name;
 
 	auto e = destination;
+	auto time = 0;
+	string ex = "WoW";
 	bool X = true;
 	while(X)
 	{
-		e = printPath(from, e, Vect);
+		auto tmp_e = e;
+		e = findPath(from, e, Vect);
+		time = findTime(e, tmp_e, ex);
+		cout << e->stop_name <<" czas dotarcia: "<< time <<" Tramwaj: "<< ex << endl;
 		if (e == from)
 			X = false;
 
