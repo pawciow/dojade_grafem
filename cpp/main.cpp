@@ -38,29 +38,28 @@ void printPath(const int vectorNumbBegin,const int vectorNumbEnd,const vector<St
 
 int main() {
 
-	const int FROM_TEST = 1;
-	const int DESTINATION_TEST = 15; //dziwne, niektore przystanki nie dzialaja w algorytmie
+	const int FROM_TEST = 3;
+	const int DESTINATION_TEST = 100; //dziwne, niektore przystanki nie dzialaja w algorytmie
 
   cout <<'\n'<< "Start:" << endl;
   LoadData *test = new LoadData();// ładuje w konstruktorze
-
-   DFS dfs(test->stops);
-   dfs(test->stops, test->stops[FROM_TEST]);
-
+	//
+  //  DFS dfs(test->stops);
+  //  dfs(test->stops, test->stops[FROM_TEST]);
+	//
    cout << "Going to: " << test->stops[DESTINATION_TEST]->returnStopName();
-   //test->stops[DESTINATION_TEST]->print_stop_specific();
-   cout << " from:"		<< test->stops[FROM_TEST]->returnStopName();
-  // test->stops[FROM_TEST]->print_stop_specific();
-   cout << "\nPath is:" << test->stops[DESTINATION_TEST]->previous <<" \n";
-
-
-   printPath(FROM_TEST,DESTINATION_TEST,test->stops);
-
-  printPath(FROM_TEST, DESTINATION_TEST, test->stops);
+  //  //test->stops[DESTINATION_TEST]->print_stop_specific();
+   cout << " from:"		<< test->stops[FROM_TEST]->returnStopName()<<endl;
+  // // test->stops[FROM_TEST]->print_stop_specific();
+  //  cout << "\nPath is:" << test->stops[DESTINATION_TEST]->previous <<" \n";
+	//
+	//
+  //  printPath(FROM_TEST,DESTINATION_TEST,test->stops);
+	//
+  // printPath(FROM_TEST, DESTINATION_TEST, test->stops);
 	aStar astar(test->stops);
 	astar.findPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST]);
 	astar.printPath();
-	//BĘDĘ MUSIAŁ DODAĆ NAZWY LINI KTÓRYMI SIE JEDZIE
 
   /*BFS bfs(test->stops);
   bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??

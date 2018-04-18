@@ -68,7 +68,7 @@ void aStar::printPath() {
       auto name = It->returnStopName();
       string line = connectionName[It];
       if (firststop == true) {
-        cout << "Odjzad ze: " << name << endl;
+        cout << "Odjzad z: " << name << endl;
         firststop = false;
       } else {
         cout << " tramwajem: " << line << " do: " << name << endl;

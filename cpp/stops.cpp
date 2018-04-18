@@ -21,7 +21,7 @@ void Stop::add_connection(string id, int time, Stop *destination) {
 
 void Stop::print_stop_specific() {
   cout << stop_id << ' ' << stop_name << endl;
-  cout << "Pozycja x: " << localization.x << "Pozycja y: " << localization.y
+  cout << "Pozycja x: " << localization.x << " Pozycja y: " << localization.y
        << endl;
   cout << "Lista połączeń z przystanku: " << endl; // dopisać funkcje
   for (list<connection>::iterator it = connections.begin();
@@ -30,6 +30,6 @@ void Stop::print_stop_specific() {
          << " Czas przejzadu: " << (*it).travel_time
          << " Cel: " << (*it).destination_stop->return_stop_name() << endl;
   }
-  cout << "Poprzednik :" << previous;
+  // cout << "Poprzednik :" << previous;
   cout << endl;
 }

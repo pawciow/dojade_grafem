@@ -177,16 +177,24 @@ LoadData::LoadData() {
   const auto localizationsFile = "data/stops.txt";
   loadLocalizations(localizationsFile);
 
-  cout << "\nUtworzono " << stops.size() << " przystanków" << endl;
-   //
-   // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-   //   if ("Jeleniog�rska" == (*it)->return_stop_name()) {
-   //     (*it)->print_stop_specific();
-   //   }
-   // }
-   // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
-   //   if ("Nowowiejska" == (*it)->return_stop_name()) {
-   //     (*it)->print_stop_specific();
-   //   }
-   // }
+  cout << "\nUtworzono " << stops.size() << " przystanków\n" << endl;
+
+  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  //   if ((*it)->return_conntections_size() < 1) {
+  //     (*it)->print_stop_specific();
+  //     cout << endl;
+  //   }
+  // }
+  // usuń przystanki bez połączeń
+  for (auto i = stops.begin(); i != stops.end();) {
+    if ((*i)->return_conntections_size()<1)
+      i = stops.erase(i);
+    else
+      ++i;
+  }
+  // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
+  //   if ("DWORZEC NADODRZE" == (*it)->return_stop_name()) {
+  //     (*it)->print_stop_specific();
+  //   }
+  // }
 }
