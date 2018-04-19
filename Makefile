@@ -1,7 +1,7 @@
 CC = g++ -std=c++14 -g
 
-all: o/main.o o/stops.o o/interfaces.o o/loadbinary.o o/tinyxml2.o o/astar.o o/bfs.o o/dfs.o
-	$(CC) o/main.o o/stops.o o/astar.o o/bfs.o o/dfs.o o/interfaces.o o/loadbinary.o o/tinyxml2.o -o program
+all: o/main.o o/stops.o o/interfaces.o o/loadbinary.o o/gui.o o/tinyxml2.o o/astar.o o/bfs.o o/dfs.o
+	$(CC) o/main.o o/stops.o o/gui.o o/astar.o o/bfs.o o/dfs.o o/interfaces.o o/loadbinary.o o/tinyxml2.o -o program
 o/main.o: cpp/main.cpp hh/main.hh
 	$(CC) cpp/main.cpp -c -o o/main.o
 o/astar.o: cpp/astar.cpp hh/astar.hh
@@ -18,6 +18,8 @@ o/tinyxml2.o:  cpp/tinyxml2.cpp hh/tinyxml2.hh
 	$(CC)  cpp/tinyxml2.cpp -c -o o/tinyxml2.o
 o/stops.o: cpp/stops.cpp hh/stops.hh
 	$(CC) cpp/stops.cpp -c -o o/stops.o
+o/stops.o: cpp/gui.cpp hh/gui.hh
+	$(CC) cpp/gui.cpp -c -o o/gui.o
 clean:
 	@echo Usuwam gotowe pliki
 	@rm -f o/*.o program

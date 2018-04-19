@@ -17,11 +17,10 @@ class LoadData : public Stop {
   vector<Stop*> tmp_stops;
   void createStopsList(const char *f_name, int variants);
   void merge_stops_list();
-  void reloadConnections(vector<Stop> target);
   void loadLocalizations(const char* file) const;
 
 public:
-  void export_stops_list();
+  auto returnStops(){return tmp_stops;};
   LoadData();
   vector<Stop*> stops; //
 

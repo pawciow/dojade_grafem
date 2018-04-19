@@ -176,9 +176,6 @@ LoadData::LoadData() {
 
   const auto localizationsFile = "data/stops.txt";
   loadLocalizations(localizationsFile);
-
-  cout << "\nUtworzono " << stops.size() << " przystanków\n" << endl;
-
   // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
   //   if ((*it)->return_conntections_size() < 1) {
   //     (*it)->print_stop_specific();
@@ -192,8 +189,7 @@ LoadData::LoadData() {
     else
       ++i;
   }
-  cout << "\nPo oczyszczeniu: " << stops.size() << " przystanków\n" << endl;
-
+  cout << "\nUtworzono " << stops.size() << " przystanków\n" << endl;
   //
   // for (vector<Stop *>::iterator it = stops.begin(); it != stops.end(); ++it) {
   //   if ("Nowowiejska" == (*it)->return_stop_name()) {
