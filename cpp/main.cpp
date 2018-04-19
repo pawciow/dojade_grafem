@@ -65,8 +65,8 @@ using namespace std;
 
 int main()	{
 
-	const int FROM_TEST = 30;
-	const int DESTINATION_TEST = 44;
+	const int FROM_TEST = 50;
+	const int DESTINATION_TEST = 80;
 
 
 	cout <<'\n'<< "Start:" << endl;
@@ -80,14 +80,14 @@ int main()	{
 	 cout << "\n To jest DFS:";
 	 DFS dfs(test->stops);
 	 dfs(test->stops, test->stops[FROM_TEST]);
-	// reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
-	// free(test);
+	 //reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
+	 free(test);
 	//
-	// cout << "\n To jest A*";
-	// LoadData *test1 = new LoadData();
-	// aStar astar(test1->stops);
-	// astar.findPath(test1->stops[FROM_TEST], test1->stops[DESTINATION_TEST]);
-	// astar.printPath();
+	 cout << "\n To jest A*";
+	 LoadData *test1 = new LoadData();
+	 aStar astar(test1->stops);
+	 astar.findPath(test1->stops[FROM_TEST], test1->stops[DESTINATION_TEST]);
+	 astar.printPath();
 	// free(test1);
 	//
 	cout << "\n To jest BFS";

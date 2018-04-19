@@ -49,7 +49,6 @@ void BFS::operator() (vector<Stop*> & nods, Stop* from)
 				nodColors[p.destination_stop->returnId()] = grey; // Pomaluj na szaro
 				Path.push_back( _path{p.line_id, p.destination_stop->return_stop_name()} ); // do debuggowania
 
-				// Ta wersja dziala lepiej. Te pointery chyba rzeczywiscie ssą xd
 				for(auto& Ex : nods)
 				{
 					if(Ex->stop_name == p.destination_stop->stop_name)
