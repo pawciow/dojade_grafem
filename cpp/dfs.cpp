@@ -39,7 +39,7 @@ void DFS::visitNode(Stop *node) {
     }
   }
   node = *it;
-  cout<<node->return_conntections_size()<<endl;
+  cout<<node->return_conntections_size()<<' ';
 
   for (auto &p : node->connections) {
     if (nodColors[p.destination_stop->returnId()] == white) {
