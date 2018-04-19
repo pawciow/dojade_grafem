@@ -22,7 +22,7 @@ auto Gui::findTimeAndSetLine(const Stop *from, const Stop *destination,
 
 Gui::Gui() {
   startStop = 1;
-  goalStop = 128;
+  goalStop = 10;
   menu();
 }
 

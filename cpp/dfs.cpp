@@ -31,14 +31,14 @@ void DFS::operator()(vector<Stop *> &nods, Stop *e) {
 void DFS::visitNode(Stop *node) {
   nodColors[node->returnId()] = grey;
 
-  auto test = node->return_stop_name();
-  vector<Stop *>::iterator it;
-  for (it = nods.begin(); it != nods.end(); ++it) {
-    if (test == (*it)->return_stop_name()) {
-      break;
-    }
-  }
-  node = *it;
+  // auto test = node->return_stop_name();
+  // vector<Stop *>::iterator it;
+  // for (it = nods.begin(); it != nods.end(); ++it) {
+  //   if (test == (*it)->return_stop_name()) {
+  //     break;
+  //   }
+  // }
+  // node = *it;
   cout<<node->return_conntections_size()<<endl;
 
   for (auto &p : node->connections) {
