@@ -18,8 +18,10 @@ DFS::DFS(const std::vector<Stop *> &aa) {
        << endl;
 }
 
-void DFS::operator()(vector<Stop *> &nods, Stop *e) {
-  for (auto &node : nods) {
+void DFS::operator()(vector<Stop *> &nods, Stop *e)
+{
+  for (auto &node : nods)
+  {
     if (nodColors[node->returnId()] == white) {
       visitNode(node);
     }

@@ -18,7 +18,7 @@ o/tinyxml2.o:  cpp/tinyxml2.cpp hh/tinyxml2.hh
 	$(CC)  cpp/tinyxml2.cpp -c -o o/tinyxml2.o
 o/stops.o: cpp/stops.cpp hh/stops.hh
 	$(CC) cpp/stops.cpp -c -o o/stops.o
-o/stops.o: cpp/gui.cpp hh/gui.hh
+o/gui.o: cpp/gui.cpp hh/gui.hh
 	$(CC) cpp/gui.cpp -c -o o/gui.o
 clean:
 	@echo Usuwam gotowe pliki
