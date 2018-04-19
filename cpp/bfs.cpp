@@ -48,8 +48,7 @@ void BFS::operator() (vector<Stop*> & nods, Stop* from)
 			if( nodColors[p.destination_stop->returnId()] == white )
 			{
 				nodColors[p.destination_stop->returnId()] = grey;
-				_path tmp(p.line_id, p.destination_stop->returnStopName());
-				Path.push_back(tmp);
+				Path.push_back( _path{p.line_id, p.destination_stop->return_stop_name()} ); // do debuggowania
 				p.destination_stop->previous = p.fromStop;
 				Q.push(p.destination_stop);
 			}

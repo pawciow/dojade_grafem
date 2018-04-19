@@ -63,38 +63,36 @@ void reconstructPath(const Stop* from,const Stop* destination, const vector<Stop
 
 int main()	{
 
-	const int FROM_TEST = 55;
-	const int DESTINATION_TEST = 21;
+	const int FROM_TEST = 4;
+	const int DESTINATION_TEST = 7;
 
-	//				WAŹNE:
-	//	Niektore przystanki sa puste - wada konstrukcyjna naszego wczytywania,
-	//	przez to czasem nie znajduje polaczenia, chociaz nazwe przystanku ma
-	// Symulowalem 0P/0L, 1, 3
-
-	// A tam pierdolisz pan, już są oczyszczone i tylko jeden przystanek
-	// był bez połączeń więc do roboty
-	// Twój algo wywala seg fault mój ładnie trasę robi!@@@
 
 	cout <<'\n'<< "Start:" << endl;
 
-	LoadData *test = new LoadData();// ładuje w konstruktorze
+	LoadData *test = new LoadData();
 	cout << "Begin stop: " << test->stops[FROM_TEST]->stop_name << endl;
 	cout << "End stop: " << test->stops[DESTINATION_TEST]->stop_name << endl;
 
-	// DFS dfs(test->stops);
-	// dfs(test->stops, test->stops[FROM_TEST]);
-	//
-	// reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
-
-	aStar astar(test->stops);
-	astar.findPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST]);
-	astar.printPath();
-
-	/*BFS bfs(test->stops);
-	bfs(test->stops, test->stops[FROM_TEST] ); // przystanek nr 21 nie dziala??
-	cout << "bfs done \n";
-
+	cout << "\n To jest DFS:";
+	DFS dfs(test->stops);
+	dfs(test->stops, test->stops[FROM_TEST]);
 	reconstructPath(test->stops[FROM_TEST], test->stops[DESTINATION_TEST], test->stops);
-	*/
+	free(test);
+
+	cout << "\n To jest A*";
+	LoadData *test1 = new LoadData();
+	aStar astar(test1->stops);
+	astar.findPath(test1->stops[FROM_TEST], test1->stops[DESTINATION_TEST]);
+	astar.printPath();
+	free(test1);
+
+	cout << "\n To jest BFS";
+	LoadData *test2 = new LoadData();
+	BFS bfs(test2->stops);
+	bfs(test2->stops, test2->stops[FROM_TEST] );
+	reconstructPath(test2->stops[FROM_TEST], test2->stops[DESTINATION_TEST], test2->stops);
+	free(test2);
+
+	cout << "Koniec programu" ;
 	return 0;
 }
