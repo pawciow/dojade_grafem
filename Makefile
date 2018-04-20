@@ -1,9 +1,11 @@
 CC = g++ -std=c++14 -g
 
-all: o/main.o o/stops.o o/interfaces.o o/loadbinary.o o/betterdfs.o o/gui.o o/tinyxml2.o o/astar.o o/bfs.o o/dfs.o
+all: makedir o/main.o o/stops.o o/interfaces.o o/loadbinary.o o/betterdfs.o o/gui.o o/tinyxml2.o o/astar.o o/bfs.o o/dfs.o
 	$(CC) o/main.o o/stops.o o/gui.o o/astar.o o/bfs.o o/betterdfs.o o/dfs.o o/interfaces.o o/loadbinary.o o/tinyxml2.o -o program
 o/main.o: cpp/main.cpp hh/main.hh
 	$(CC) cpp/main.cpp -c -o o/main.o
+makedir:
+	@mkdir -p o
 o/astar.o: cpp/astar.cpp hh/astar.hh
 	$(CC) cpp/astar.cpp -c -o o/astar.o
 o/dfs.o: cpp/dfs.cpp hh/dfs.hh
