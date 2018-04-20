@@ -1,5 +1,6 @@
 //#include "../hh/main.hh"
 #include "../hh/gui.hh"
+#include "../hh/betterdfs.hh"
 
 #include "../hh/astar.hh"
 #include "../hh/bfs.hh"
@@ -65,13 +66,19 @@ using namespace std;
 
 int main()	{
 
-	const int FROM_TEST = 4;
-	const int DESTINATION_TEST = 7;
+	const int FROM_TEST = 28;
+	const int DESTINATION_TEST = 10;
 
 
 	cout <<'\n'<< "Start:" << endl;
 
-Gui interfejs;
+// Gui interfejs;/////////////////////////
+
+LoadData *test = new LoadData();
+BetterDFS dfs(test->stops);
+cout << "Begin stop: " << test->stops[FROM_TEST]->stop_name << endl;
+cout << "End stop: " << test->stops[DESTINATION_TEST]->stop_name << endl;
+dfs.findPath(test->stops[FROM_TEST],test->stops[DESTINATION_TEST]);
 
 	// LoadData *test = new LoadData();
 	// cout << "Begin stop: " << test->stops[FROM_TEST]->stop_name << endl;
