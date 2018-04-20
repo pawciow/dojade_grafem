@@ -19,13 +19,12 @@ protected:
 class IResults {
 protected:
 int nodesCount = 0;
-  struct _path {
+  struct _path
+  {
     string lineName;
     string stopName;
-    _path(string Line, string Stop) {
-      lineName = Line;
-      stopName = Stop;
-    }
+    _path(string Line, string Stop)
+    { lineName = Line; stopName = Stop; }
   };
   vector<_path> Path;
   friend ostream &operator<<(ostream &out, const IResults);

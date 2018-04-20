@@ -33,3 +33,4 @@ void Stop::print_stop_specific() {
   // cout << "Poprzednik :" << previous;
   cout << endl;
 }
+

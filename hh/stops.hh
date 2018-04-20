@@ -10,6 +10,11 @@ struct Localization {
   double y = 0.0;
 };
 
+
+
+
+
+
 class Stop {
 public:
   string stop_name;
@@ -49,4 +54,6 @@ public:
   }
 
   void print_stop_specific();
+
+  auto findProperStop(string toFind);
 };

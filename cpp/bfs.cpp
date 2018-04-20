@@ -7,22 +7,21 @@
 
 #include "../hh/bfs.hh"
 
-BFS::BFS(vector<Stop*> nods)
+BFS::BFS(const vector<Stop*> & nods)
 {
 	cout << "BFS created correctly \n";
 	for(auto& e: nods)
 	{
 		nodColors[e->returnId()] = white;
-		for(auto& I : e->connections)
-			I.fromStop = e->returnStopName();
 	}
 }
 
-void BFS::Enqueue(const list<Stop::connection> & connections)
+void BFS::Enqueue(const Stop* Stop)
 {
-	for( auto& I : connections)
+	for( auto& I : Stop->connections)
 	{
 		Q.push(I.destination_stop);
+		I.destination_stop->previous = Stop->stop_name;
 	}
 }
 
@@ -36,7 +35,7 @@ void BFS::operator() (vector<Stop*> & nods, Stop* from)
 {
 
 	nodColors[from->returnId()] = grey;
-	Enqueue(from->connections);
+	Enqueue(from);
 
 
 	while(!Q.empty())
@@ -47,10 +46,16 @@ void BFS::operator() (vector<Stop*> & nods, Stop* from)
 		{
 			if( nodColors[p.destination_stop->returnId()] == white )
 			{
-				nodColors[p.destination_stop->returnId()] = grey;
+				nodColors[p.destination_stop->returnId()] = grey; // Pomaluj na szaro
 				Path.push_back( _path{p.line_id, p.destination_stop->return_stop_name()} ); // do debuggowania
-				p.destination_stop->previous = p.fromStop;
-				Q.push(p.destination_stop);
+
+				for(auto& Ex : nods)
+				{
+					if(Ex->stop_name == p.destination_stop->stop_name)
+					Enqueue(Ex);
+				}
+
+				// TO STARA WERSJA - wywala sie o te pointery Enqueue(p.destination_stop);
 			}
 		}
 		auto key = e->returnId();
