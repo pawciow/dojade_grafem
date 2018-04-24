@@ -9,17 +9,14 @@
 #define HH_DFS_HH_
 
 #include "interfaces.hh"
+#include "firstsearch.hh"
 
-class DFS : private IColors, public IResults
+
+class DepthFirstSearch : public firstSearch
 {
 public:
-	std::vector<Stop *> nods;
-	DFS(const vector<Stop*> & stopsVector);
-	void operator() (vector<Stop*> & nods , Stop* e);
-private:
-	void visitNode(Stop*);
-	Stop* findProperStop(string toFind);
-
+	void findPath(Stop *start, Stop *goal);
+	DepthFirstSearch(std::vector<Stop *> nodes);
 };
 
 

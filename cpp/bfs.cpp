@@ -7,60 +7,53 @@
 
 #include "../hh/bfs.hh"
 
-BFS::BFS(const vector<Stop*> & nods)
-{
-	cout << "BFS created correctly \n";
-	for(auto& e: nods)
+BreadthFirstSearch::BreadthFirstSearch(std::vector<Stop *> nodes)
+	:  firstSearch(nodes)
 	{
-		nodColors[e->returnId()] = white;
+		;
 	}
-}
+void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
+  came_from[start] = NULL;
 
-void BFS::Enqueue(const Stop* Stop)
-{
-	for( auto& I : Stop->connections)
-	{
-		Q.push(I.destination_stop);
-		I.destination_stop->previous = Stop->stop_name;
-	}
-}
+ // std::stack<Stop *> stack;
+  queue<Stop*> stack;
+  int a = 0;
+  stack.push(start);
+  while (!stack.empty()) {
+    a++;
+    // if (a > 5) {
+    // break;
+    // };
+    //auto node = stack.top();
+    auto node = stack.front();
 
-Stop* BFS::Dequeue(queue<Stop*>& Q)
-{
-	Stop* e = Q.front();
-	Q.pop();
-	return e;
-}
-void BFS::operator() (vector<Stop*> & nods, Stop* from)
-{
-
-	nodColors[from->returnId()] = grey;
-	Enqueue(from);
-
-
-	while(!Q.empty())
-	{
-		nodesCount++;
-		auto e = Dequeue(Q);
-		for( auto& p : e->connections)
-		{
-			if( nodColors[p.destination_stop->returnId()] == white )
-			{
-				nodColors[p.destination_stop->returnId()] = grey; // Pomaluj na szaro
-				Path.push_back( _path{p.line_id, p.destination_stop->return_stop_name()} ); // do debuggowania
-
-				for(auto& Ex : nods)
-				{
-					if(Ex->stop_name == p.destination_stop->stop_name)
-					Enqueue(Ex);
-				}
-
-				// TO STARA WERSJA - wywala sie o te pointery Enqueue(p.destination_stop);
-			}
-		}
-		auto key = e->returnId();
-		nodColors[key] = black;
-	}
-	cout << "Number of stops is: " << nodesCount << endl;
-
+    stack.pop();
+    // node->print_stop_specific();
+    if (node == goal) {
+      cout << "GOAL" << endl;
+      routefound = true;
+      path = reconstruct_path(start, goal, came_from);
+      printPath();
+      break;
+    }
+    if (visited[node] == false) {
+      visited[node] = true;
+      auto edges = node->returnConnection();
+      for (auto &next : edges) {
+        string tgg = next.destination_stop->returnStopName();
+        // cout << " For node: " << tgg << endl;
+        vector<Stop *>::iterator it;
+        for (it = stops.begin(); it != stops.end(); ++it) {
+          if (tgg == (*it)->return_stop_name()) {
+            break;
+          }
+        }
+        stack.push(*it);
+        if (came_from.find(*it) == came_from.end()) {
+          came_from[*it] = node;
+        }
+        connectionName[*it] = next.line_id;
+      }
+    }
+  }
 }

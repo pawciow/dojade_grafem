@@ -9,21 +9,14 @@
 #define HH_BFS_HH_
 
 #include "interfaces.hh"
+#include "firstsearch.hh"
 
-
-class BFS : private IColors, public IResults
+class BreadthFirstSearch : public firstSearch
 {
 public:
-	BFS(const vector<Stop*> & nods);
-	void operator() (vector<Stop*> & nods, Stop* from );
-private:
-	queue<Stop*> Q;
-	void Enqueue(const Stop* Stop);
-	Stop* Dequeue(queue<Stop*>& Q);
-
+	BreadthFirstSearch(std::vector<Stop *> nodes);
+	void findPath(Stop *start, Stop *goal);
 };
-
-
 
 
 #endif /* HH_BFS_HH_ */

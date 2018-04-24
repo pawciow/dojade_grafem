@@ -12,6 +12,7 @@ void BetterDFS::findPath(Stop *start, Stop *goal) {
   came_from[start] = NULL;
 
   std::stack<Stop *> stack;
+ // queue<Stop*> stack;
   int a = 0;
   stack.push(start);
   while (!stack.empty()) {
@@ -20,6 +21,8 @@ void BetterDFS::findPath(Stop *start, Stop *goal) {
     // break;
     // };
     auto node = stack.top();
+    //auto node = stack.front();
+
     stack.pop();
     // node->print_stop_specific();
     if (node == goal) {

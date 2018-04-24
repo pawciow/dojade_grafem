@@ -7,76 +7,56 @@
 
 #include "../hh/dfs.hh"
 
-DFS::DFS(const std::vector<Stop *> & stopsVector)
-{
-  nods=stopsVector;
-  int numberOfStops = 0;
-  for (auto &p : nods)
-  {
-    nodColors[p->returnId()] = white;
-    numberOfStops++;
-  }
-  cout << "DFS created properly. Number of white stops is: " << numberOfStops
-       << endl;
-}
 
-void DFS::operator()(vector<Stop *> &nods, Stop *e)
-{
-  for (auto &node : nods)
-  {
-    if (nodColors[node->returnId()] == white)
-    {
-      visitNode(node);
-    }
-  }
-  // visitNode(e);line_id
-  cout << "Number of stops is: " << nodesCount << endl;
-}
-Stop* DFS::findProperStop(string toFind)
-{
-	Stop* found;
-	for(auto& e: nods)
+	DepthFirstSearch::DepthFirstSearch(std::vector<Stop *> nodes)
+	:  firstSearch(nodes)
 	{
-		if(e->stop_name == toFind)
-		{
-			found  = e;
-			break;
-		}
+		;
 	}
-	return found;
-}
-void DFS::visitNode(Stop *node)
+
+void DepthFirstSearch::findPath(Stop *start, Stop *goal)
 {
-  nodColors[node->returnId()] = grey;
+  came_from[start] = NULL;
 
-  auto test = node->return_stop_name();
-  for (auto& it: nods)
-  {
-    if (test == it->return_stop_name())
-    {
-    	node = it;
-    	break;
+  std::stack<Stop *> stack;
+ // queue<Stop*> stack;
+  int a = 0;
+  stack.push(start);
+  while (!stack.empty()) {
+    a++;
+    // if (a > 5) {
+    // break;
+    // };
+    auto node = stack.top();
+    //auto node = stack.front();
+
+    stack.pop();
+    // node->print_stop_specific();
+    if (node == goal) {
+      cout << "GOAL" << endl;
+      routefound = true;
+      path = reconstruct_path(start, goal, came_from);
+      printPath();
+      break;
     }
-  }
-
-  for (auto &p : node->connections)
-  {
-    if (nodColors[p.destination_stop->returnId()] == white)
-    {
-      // Path.push_back(_path{p.line_id, p.destination_stop->returnStopName()});
-      p.destination_stop->previous = node->returnStopName();
-      Stop* goodPointer;
-      for(auto& e: nods)
-      {
-    	  if(e->stop_name == p.destination_stop->stop_name)
-    	  {
-    		  cout << "" << e->stop_name << " " <<  p.destination_stop->stop_name;
-    		 goodPointer = e;
-    		 break;
-    	  }
+    if (visited[node] == false) {
+      visited[node] = true;
+      auto edges = node->returnConnection();
+      for (auto &next : edges) {
+        string tgg = next.destination_stop->returnStopName();
+        // cout << " For node: " << tgg << endl;
+        vector<Stop *>::iterator it;
+        for (it = stops.begin(); it != stops.end(); ++it) {
+          if (tgg == (*it)->return_stop_name()) {
+            break;
+          }
+        }
+        stack.push(*it);
+        if (came_from.find(*it) == came_from.end()) {
+          came_from[*it] = node;
+        }
+        connectionName[*it] = next.line_id;
       }
-      visitNode(goodPointer);
     }
   }
-  nodColors[node->returnId()] = black;
 }

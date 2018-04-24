@@ -10,5 +10,3 @@ ostream& operator<<(ostream& out, const IResults results)
 	return out;
 }
 
-
-
