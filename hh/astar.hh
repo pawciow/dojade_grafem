@@ -7,6 +7,7 @@
 #include <map>
 #include <math.h>
 #include <queue>
+#include <chrono>
 
 class aStar {
   std::map<std::string, double> distances;

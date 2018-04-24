@@ -13,25 +13,27 @@ BreadthFirstSearch::BreadthFirstSearch(std::vector<Stop *> nodes)
 		;
 	}
 void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
+
+  auto beginTime = std::chrono::high_resolution_clock::now();
+
   came_from[start] = NULL;
 
- // std::stack<Stop *> stack;
   queue<Stop*> stack;
   int a = 0;
   stack.push(start);
-  while (!stack.empty()) {
+  while (!stack.empty())
+  {
     a++;
-    // if (a > 5) {
-    // break;
-    // };
-    //auto node = stack.top();
     auto node = stack.front();
-
     stack.pop();
-    // node->print_stop_specific();
-    if (node == goal) {
+
+    if (node == goal)
+    {
       cout << "GOAL" << endl;
       routefound = true;
+      auto endTime = std::chrono::high_resolution_clock::now();
+      long long int _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
+      cout << "Time for BFS : " << _time << endl;
       path = reconstruct_path(start, goal, came_from);
       printPath();
       break;
@@ -41,7 +43,6 @@ void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
       auto edges = node->returnConnection();
       for (auto &next : edges) {
         string tgg = next.destination_stop->returnStopName();
-        // cout << " For node: " << tgg << endl;
         vector<Stop *>::iterator it;
         for (it = stops.begin(); it != stops.end(); ++it) {
           if (tgg == (*it)->return_stop_name()) {

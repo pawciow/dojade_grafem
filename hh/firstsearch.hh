@@ -9,6 +9,7 @@
 #include <functional>
 #include <map>
 #include <queue>
+#include <chrono>
 
 #ifndef HH_BETTERBFS_HH_
 #define HH_BETTERBFS_HH_
@@ -29,7 +30,10 @@ public:
   void printPath();
 };
 
+class IMeasureable
+{
 
+};
 
 
 #endif /* HH_BETTERBFS_HH_ */

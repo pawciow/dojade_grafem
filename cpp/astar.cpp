@@ -16,7 +16,10 @@ aStar::aStar(vector<Stop *> stopp) {
   routefound = false;
 }
 
-void aStar::findPath(Stop *start, Stop *goal) {
+void aStar::findPath(Stop *start, Stop *goal)
+{
+  auto beginTime = std::chrono::high_resolution_clock::now();
+
   calculateHeuristic(goal);
 
   std::map<Stop *, Stop *> came_from;
@@ -58,6 +61,9 @@ void aStar::findPath(Stop *start, Stop *goal) {
       }
     }
   }
+  auto endTime = std::chrono::high_resolution_clock::now();
+        long long int _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
+        cout << "Time for A* : " << _time << endl;
 
   // cout << "KONIEC A* " << a << endl;
   if (routefound)
