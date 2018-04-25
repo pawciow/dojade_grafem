@@ -1,7 +1,7 @@
 CC = g++ -std=c++14 -g
 
-all: makedir o/main.o o/stops.o o/loadbinary.o o/dfs.o o/bfs.o o/firstsearch.o  o/tinyxml2.o o/astar.o 
-	$(CC) 	 o/main.o o/stops.o o/loadbinary.o o/dfs.o o/bfs.o o/firstsearch.o  o/tinyxml2.o o/astar.o -o program
+all: makedir o/main.o o/stops.o o/loadbinary.o o/dfs.o o/bfs.o o/firstsearch.o  o/tinyxml2.o o/astar.o o/gui.o
+	$(CC) 	 o/main.o o/stops.o o/loadbinary.o o/dfs.o o/bfs.o o/firstsearch.o  o/tinyxml2.o o/astar.o o/gui.o -o program
 o/main.o: cpp/main.cpp hh/main.hh
 	$(CC) cpp/main.cpp -c -o o/main.o
 makedir:
@@ -20,8 +20,8 @@ o/tinyxml2.o:  cpp/tinyxml2.cpp hh/tinyxml2.hh
 	$(CC)  cpp/tinyxml2.cpp -c -o o/tinyxml2.o
 o/stops.o: cpp/stops.cpp hh/stops.hh
 	$(CC) cpp/stops.cpp -c -o o/stops.o
-#o/gui.o: cpp/gui.cpp hh/gui.hh
-#	$(CC) cpp/gui.cpp -c -o o/gui.o
+o/gui.o: cpp/gui.cpp hh/gui.hh
+	$(CC) cpp/gui.cpp -c -o o/gui.o
 #o/betterdfs.o: cpp/betterdfs.cpp hh/betterdfs.hh
 #	$(CC) cpp/betterdfs.cpp -c -o o/betterdfs.o
 o/firstsearch.o: cpp/firstsearch.cpp hh/firstsearch.hh

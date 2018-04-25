@@ -1,24 +1,5 @@
 #include "../hh/gui.hh"
 
-auto Gui::findPath(const Stop *from, const Stop *destination,
-                   const vector<Stop *> &Vect) {
-  for (auto &&e : Vect) {
-    if (e->stop_name == destination->previous) {
-      return e;
-    }
-  }
-}
-
-auto Gui::findTimeAndSetLine(const Stop *from, const Stop *destination,
-                             string &tram) {
-  for (auto &&It : from->connections) {
-    if (It.destination_stop == destination) {
-      tram = It.line_id;
-      return It.travel_time;
-    }
-  }
-  return -1; // Czas ujemny - nie znalazlo polaczenia
-}
 
 Gui::Gui() {
   startStop = 1;
@@ -52,15 +33,18 @@ void Gui::findStop(string stop) {
 void Gui::menu() {
   char choice, choice2;
   bool trasa = true;
-  DFS dfs(data->stops);
+;
+
+  DepthFirstSearch DFS(data->stops);
+  BreadthFirstSearch BFS(data->stops);
   aStar astar(data->stops);
 
   string scherch;
   do {
     cout << "\nCo robić?\n(1) Wyświetl id przystanku \n(2) Wybierz początkowy "
             "\n(3) "
-            "Wybierz końcowy \n(4) Szukaj trasy \n(5) Menu graficzne \n(9) "
-            "Wyjście"
+            "Wybierz końcowy \n(4) Szukaj trasy \n  " /*(5)Menu graficzne \n*/
+            "(9) Wyjście"
          << endl;
     cin >> choice;
     switch (choice) {
@@ -89,13 +73,12 @@ void Gui::menu() {
       case '1':
         cout << "DFS\nFrom: " << data->stops[startStop]->returnStopName()
              << " To: " << data->stops[goalStop]->returnStopName() << "\n\n";
-        dfs(data->stops, data->stops[startStop]);
-        reconstructPath(data->stops[startStop], data->stops[goalStop],
-                        data->stops);
+        DFS.findPath(data->stops[startStop], data->stops[goalStop]);
         break;
-
       case '2':
-        cout << "BFS\n\n";
+          cout << "DFS\nFrom: " << data->stops[startStop]->returnStopName()
+               << " To: " << data->stops[goalStop]->returnStopName() << "\n\n";
+          BFS.findPath(data->stops[startStop], data->stops[goalStop]);
         break;
       case '3':
         cout << "A*\nFrom: " << data->stops[startStop]->returnStopName()
@@ -105,7 +88,7 @@ void Gui::menu() {
         break;
       }
       break;
-    case '5':
+    /*case '5':
       cout << "\nMenu graficzne: \n(1) Wyświetl przystanki z "
               "połączeniami\n(2) wyświetlaj trasę - on/off"
            << endl;
@@ -121,7 +104,7 @@ void Gui::menu() {
         cout << "trasa = " << trasa << endl;
         break;
       }
-      break;
+      break;*/
     case '9':
       system("clear");
       cout << "Koniec programu\n\n";
@@ -133,28 +116,4 @@ void Gui::menu() {
     }
   } while (choice != '9');
 }
-void Gui::reconstructPath(const Stop *from, const Stop *destination,
-                          const vector<Stop *> &Vect) {
-  cout << "Sciezki:" << endl << destination->stop_name;
 
-  auto e = destination;
-  auto time = 0;
-  auto SummarizedTime = 0;
-  string ex = "WoW";
-  bool X = true;
-  while (X) {
-    auto tmp_e = e;
-    e = findPath(from, e, Vect);
-    time = findTimeAndSetLine(e, tmp_e, ex);
-    SummarizedTime += time;
-    if (time == -1) {
-      cerr << "NO PATH WAS FOUND !!";
-      break;
-    }
-    cout << e->stop_name << " czas dotarcia: " << time << " Tramwaj: " << ex
-         << endl;
-    if (e == from)
-      X = false;
-  }
-  cout << "Time for whole route is : " << SummarizedTime << endl;
-}

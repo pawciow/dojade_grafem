@@ -47,12 +47,24 @@ void firstSearch::printPath()
         cout << "Odjzad z: " << name << endl;
         firststop = false;
       } else {
-        cout << "tramwajem: " << line << " do:\t" << name << endl;
+        cout << "tramwajem: " << line << " do:\t" << name
+        	 << " czas połączenia: " << connectionCost[It] << endl;
       }
     }
   } else {
     cout << " Nie znaleziono połączenia. " << endl;
   }
 }
+void IMeasureable::endTimeMeasurement()
+{
+	endTime = std::chrono::high_resolution_clock::now();
 
+    _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
+    cout << "THAT'S THE TIME : " << _time;
+}
+void IMeasureable::beginTimeMeasurement()
+{
+	beginTime = std::chrono::high_resolution_clock::now();
+
+}
 

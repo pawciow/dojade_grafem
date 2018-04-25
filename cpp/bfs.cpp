@@ -14,8 +14,8 @@ BreadthFirstSearch::BreadthFirstSearch(std::vector<Stop *> nodes)
 	}
 void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
 
-  auto beginTime = std::chrono::high_resolution_clock::now();
 
+	beginTimeMeasurement();
   came_from[start] = NULL;
 
   queue<Stop*> stack;
@@ -31,29 +31,39 @@ void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
     {
       cout << "GOAL" << endl;
       routefound = true;
-      auto endTime = std::chrono::high_resolution_clock::now();
-      long long int _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
+
+  	endTimeMeasurement();
+
       cout << "Time for BFS : " << _time << endl;
+
       path = reconstruct_path(start, goal, came_from);
       printPath();
       break;
     }
-    if (visited[node] == false) {
+    if (visited[node] == false)
+    {
       visited[node] = true;
       auto edges = node->returnConnection();
-      for (auto &next : edges) {
+      for (auto &next : edges)
+      {
         string tgg = next.destination_stop->returnStopName();
+        auto cost = next.travel_time; //DODAŁEM
+
         vector<Stop *>::iterator it;
-        for (it = stops.begin(); it != stops.end(); ++it) {
-          if (tgg == (*it)->return_stop_name()) {
+        for (it = stops.begin(); it != stops.end(); ++it)
+        {
+          if (tgg == (*it)->return_stop_name())
+          {
             break;
           }
         }
         stack.push(*it);
-        if (came_from.find(*it) == came_from.end()) {
+        if (came_from.find(*it) == came_from.end())
+        {
           came_from[*it] = node;
         }
-        connectionName[*it] = next.line_id;
+        connectionName[*it] = next.line_id;//DODAŁEM
+        connectionCost[*it] = cost;
       }
     }
   }

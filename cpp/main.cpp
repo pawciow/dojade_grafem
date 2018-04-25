@@ -21,7 +21,6 @@ int main()	{
 
 	cout <<'\n'<< "Start:" << endl;
 
-// Gui interfejs;/////////////////////////
 
 	LoadData *test = new LoadData();
 	auto test1 = test->stops;
@@ -42,6 +41,7 @@ int main()	{
 	 astar.findPath(test3[FROM_TEST], test3[DESTINATION_TEST]);
 	 astar.printPath();
 
+	 //Gui interfejs;/////////////////////////
 
 	return 0;
 }
