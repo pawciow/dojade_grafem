@@ -1,5 +1,5 @@
 #include "../hh/astar.hh"
-
+/*Oblicza odlegość euklidesową od przystanku do celu */
 void aStar::calculateHeuristic(Stop *stop) {
   for (auto &e : stops) {
     double tmp = (stop->localization.x - e->localization.x) *
@@ -75,7 +75,7 @@ void aStar::printPath() {
       auto name = It->returnStopName();
       string line = connectionName[It];
       if (firststop == true) {
-        cout << "Odjzad z: " << name << endl;
+        cout << "Odjazd z: " << name << endl;
         firststop = false;
       } else {
         cout << " tramwajem: " << line << " do: " << name

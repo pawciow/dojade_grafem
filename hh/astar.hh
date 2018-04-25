@@ -2,7 +2,6 @@
 #define HH_ASTAR_HH_
 
 #include "../hh/loadbinary.hh"
-#include "interfaces.hh"
 #include <functional>
 #include <map>
 #include <math.h>

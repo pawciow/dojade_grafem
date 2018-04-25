@@ -31,7 +31,7 @@ void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
       cout << "GOAL" << endl;
       routefound = true;
 
-  	endTimeMeasurement();
+      endTimeMeasurement();
 
       cout << "Time for BFS : " << upTime << endl;
 

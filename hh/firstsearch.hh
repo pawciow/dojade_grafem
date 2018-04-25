@@ -5,7 +5,6 @@
  *      Author: pawciow
  */
 #include "../hh/loadbinary.hh"
-#include "interfaces.hh"
 #include <functional>
 #include <map>
 #include <queue>
@@ -29,7 +28,7 @@ public:
 
 };
 
-
+/* Klasa czysto abstrakcyjna, używana do algorytmów */
  class firstSearch : public IMeasureable
  {
 protected:
@@ -42,7 +41,6 @@ protected:
   std::vector<Stop *> path;
   bool routefound;
   std::vector<Stop *> reconstruct_path(Stop *start, Stop *goal, std::map<Stop *, Stop *> came_from);
-
 public:
   firstSearch(std::vector<Stop *> nodes);
   virtual void findPath(Stop *start, Stop *goal) = 0;

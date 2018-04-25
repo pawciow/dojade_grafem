@@ -44,7 +44,7 @@ void firstSearch::printPath()
       auto name = It->returnStopName();
       string line = connectionName[It];
       if (firststop == true) {
-        cout << "Odjzad z: " << name << endl;
+        cout << "Odjazd z: " << name << endl;
         firststop = false;
       } else {
         cout << "tramwajem: " << line << " do:\t" << name
@@ -58,14 +58,12 @@ void firstSearch::printPath()
 void IMeasureable::endTimeMeasurement()
 {
 	endTime = std::chrono::high_resolution_clock::now();
-
     upTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
-    cout << "THAT'S THE TIME : " << upTime;
+    //cout << "THAT'S THE TIME : " << upTime;
 }
 void IMeasureable::beginTimeMeasurement()
 {
 	beginTime = std::chrono::high_resolution_clock::now();
-
 }
 
 void IMeasureable::printResults()

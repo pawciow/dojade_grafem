@@ -8,7 +8,6 @@
 #ifndef HH_DFS_HH_
 #define HH_DFS_HH_
 
-#include "interfaces.hh"
 #include "firstsearch.hh"
 
 

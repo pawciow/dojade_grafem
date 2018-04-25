@@ -8,7 +8,6 @@
 #ifndef HH_BFS_HH_
 #define HH_BFS_HH_
 
-#include "interfaces.hh"
 #include "firstsearch.hh"
 
 class BreadthFirstSearch : public firstSearch

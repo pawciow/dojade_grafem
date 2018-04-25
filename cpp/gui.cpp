@@ -49,7 +49,7 @@ void Gui::menu() {
     cin >> choice;
     switch (choice) {
     case '1':
-      system("clear");
+     // system("clear");
       cout << "Wpisz fragment nazwy przystanku np: \" grun \"\ndla przystanków "
               "zawierających tą frazę (Pl. Grunwaldzki)"
            << endl;
