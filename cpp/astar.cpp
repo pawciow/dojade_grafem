@@ -18,7 +18,7 @@ aStar::aStar(vector<Stop *> stopp) {
 
 void aStar::findPath(Stop *start, Stop *goal)
 {
-  auto beginTime = std::chrono::high_resolution_clock::now();
+  beginTimeMeasurement();
 
   calculateHeuristic(goal);
 
@@ -28,11 +28,10 @@ void aStar::findPath(Stop *start, Stop *goal)
   frontier.put(start, 0);
   came_from[start] = start;
   cost_so_far[start] = 0;
-  int a = 0;
 
   while (!frontier.empty()) {
-    a++;
-    Stop *current = frontier.get();
+	nodesVisited++;
+	Stop *current = frontier.get();
 
     if (current == goal) {
       std::cout << "A* dotarło\n";
@@ -61,9 +60,8 @@ void aStar::findPath(Stop *start, Stop *goal)
       }
     }
   }
-  auto endTime = std::chrono::high_resolution_clock::now();
-        long long int _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
-        cout << "Time for A* : " << _time << endl;
+
+  endTimeMeasurement();
 
   // cout << "KONIEC A* " << a << endl;
   if (routefound)

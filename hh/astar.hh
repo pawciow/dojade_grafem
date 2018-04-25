@@ -8,8 +8,10 @@
 #include <math.h>
 #include <queue>
 #include <chrono>
+#include "firstsearch.hh"
 
-class aStar {
+class aStar : public IMeasureable
+{
   std::map<std::string, double> distances;
   vector<Stop *> stops;
   vector<Stop *> path;

@@ -59,12 +59,19 @@ void IMeasureable::endTimeMeasurement()
 {
 	endTime = std::chrono::high_resolution_clock::now();
 
-    _time = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
-    cout << "THAT'S THE TIME : " << _time;
+    upTime = std::chrono::duration_cast<std::chrono::microseconds>(endTime - beginTime).count();
+    cout << "THAT'S THE TIME : " << upTime;
 }
 void IMeasureable::beginTimeMeasurement()
 {
 	beginTime = std::chrono::high_resolution_clock::now();
 
+}
+
+void IMeasureable::printResults()
+{
+	cout << "Results for this specific algorithm : \n "
+		 << "Time : " << upTime << endl
+		 << "Nodes visited : " << nodesVisited << endl;
 }
 

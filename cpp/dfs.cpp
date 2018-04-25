@@ -21,11 +21,11 @@ void DepthFirstSearch::findPath(Stop *start, Stop *goal)
   came_from[start] = NULL;
 
   std::stack<Stop *> stack;
-  int a = 0;
   stack.push(start);
   while (!stack.empty()) {
-    a++;
-    auto node = stack.top();
+
+	nodesVisited++;
+	auto node = stack.top();
     stack.pop();
     if (node == goal)
     {
@@ -33,7 +33,7 @@ void DepthFirstSearch::findPath(Stop *start, Stop *goal)
       routefound = true;
 
       endTimeMeasurement();
-      cout << "Time for DFS : " << _time << endl;
+      cout << "Time for DFS : " << upTime << endl;
 
       path = reconstruct_path(start, goal, came_from);
       printPath();

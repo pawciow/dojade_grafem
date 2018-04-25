@@ -17,12 +17,16 @@
 class IMeasureable
 {
 public:
+	// Do mierzenia czasu działania algorytmu
 	std::chrono::_V2::system_clock::time_point beginTime;
 	std::chrono::_V2::system_clock::time_point endTime;
-	long long int _time;
+	long long int upTime;
 	void beginTimeMeasurement();
 	void endTimeMeasurement();
 	void printResults();
+	//Do mierzenia ilości odwiedzonych wierzchołków
+	int nodesVisited = 0;
+
 };
 
 

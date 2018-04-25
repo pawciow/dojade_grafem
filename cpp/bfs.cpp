@@ -19,11 +19,10 @@ void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
   came_from[start] = NULL;
 
   queue<Stop*> stack;
-  int a = 0;
   stack.push(start);
   while (!stack.empty())
   {
-    a++;
+    nodesVisited++;
     auto node = stack.front();
     stack.pop();
 
@@ -34,7 +33,7 @@ void BreadthFirstSearch::findPath(Stop *start, Stop *goal) {
 
   	endTimeMeasurement();
 
-      cout << "Time for BFS : " << _time << endl;
+      cout << "Time for BFS : " << upTime << endl;
 
       path = reconstruct_path(start, goal, came_from);
       printPath();
